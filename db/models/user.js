@@ -52,12 +52,12 @@ module.exports = (db.sequelize, DataTypes)=>{
     hooks: {
       beforeValidate: function(User, options){
         User.email = User.email.toLowerCase();
-      },
-      instanceMethods: {
-        toPublicJSON: function(){
-          var json = this.toJSON();
-          return _.pick(json, 'id', 'email', 'firstName', 'lastName', 'createdAt', 'updatedAt' )
-        }
+      }
+    },
+    instanceMethods: {
+      toPublicJSON: function(){
+        var jsonObj = this.toJSON(); //toJSON is a sequelize instance method that returns an object, not JSON.  This is not the same as JSON.stringify
+        return _.pick(jsonObj, 'id', 'email', 'firstName', 'lastName', 'createdAt', 'updatedAt' )
       }
     }
   })

@@ -1,6 +1,10 @@
+const crypto = require('crypto-js');
+
 module.exports = function(db){
   return requireAuthentication: function(req, res, next){
-    var token = req.get('Auth'); // retrieved from headers in main request.
+    //retrieve token from header
+    var token = req.get('Auth') || ''; // retrieved from headers in main request.
+    
     db.user.findByToken(token)
     .then((user)=>{
       if(user){
