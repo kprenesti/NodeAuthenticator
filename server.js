@@ -46,6 +46,8 @@ app.post('/users/login', (req, res)=>{
       res.json(user.toPublicJSON()).send();
       //Create JWT token
 
+    }, (e)=>{
+      res.status(401).json(e);
     });
 
   } else {
@@ -54,7 +56,7 @@ app.post('/users/login', (req, res)=>{
 });
 
 
-db.sequelize.sync({force: true}).then(function() {
+db.sequelize.sync().then(function() {
 	app.listen(PORT, function() {
 		console.log('Express listening on port ' + PORT + '!');
 	});

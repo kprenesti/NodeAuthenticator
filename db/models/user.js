@@ -80,10 +80,10 @@ module.exports = (sequelize, DataTypes)=>{
             //this is where the actual checking against PW happens!
             //Check to make sure that the bcrypted password_hash matches the inputed PW
             if(!user || !bcrypt.compareSync(body.password, user.get('password_hash'))){
-              return reject();
+              return reject('Incorrect Password.');
             }
-            resolve(user);
-          })
+            return resolve(user);
+          });
         })
       }, // end authenticate
       findByToken: function(token, jwtPW, cryptoPW){
