@@ -1,17 +1,17 @@
-var db = {};
-
-
-db.Sequelize = require('sequelize');
+const Sequelize = require('sequelize');
 var dbUsername = undefined,
     dbPassword = undefined,
     dbName = undefined;
-db.sequelize = new db.Sequelize(dbName, dbUsername, dbPassword, {
-  dialect: 'sqlite',
-  host: 'localhost',
-  storage: __dirname + '/AuthenticationDB.sqlite'
+const sequelize = new Sequelize(dbName, dbUsername, dbPassword, {
+    dialect: 'sqlite',
+    host: 'localhost',
+    storage: __dirname + '/AuthenticationDB.sqlite'
 });
-
+var db = {};
+db.sequelize = sequelize;
+db.Sequelize = Sequelize;
 db.user = sequelize.import(__dirname + '/models/user.js');
+db.token = sequelize.import(__dirname + '/models/token.js');
 
 // db.sequelize
 //   .authenticate()
