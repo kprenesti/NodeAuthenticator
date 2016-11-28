@@ -2,9 +2,11 @@ const env = require('dotenv').config();
 const express = require('express');
 const app = express();
 var bodyParser = require('body-parser');
+
 const _ = require('lodash');
 const bcrypt = require('bcrypt');
 const db = require('./db/db.js');
+const jwt = require('jsonwebtoken');
 var PORT = process.env.PORT || 3100;
 const authorize = require('./middleware/pwAuth');
 // var hash = bcrypt.hashSync(db.user.password, 10);
@@ -13,6 +15,7 @@ const authorize = require('./middleware/pwAuth');
 
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.set('view engine', 'hbs');
 
 
@@ -43,8 +46,7 @@ app.post('/users/login', (req, res)=>{
       if(!user){
         return res.status(401).send();
       }
-      res.json(user.toPublicJSON()).send();
-      //Create JWT token
+      res.header('Auth', user.generateToken('authentication')).json(user.toPublicJSON()).send();
 
     }, (e)=>{
       res.status(401).json(e);

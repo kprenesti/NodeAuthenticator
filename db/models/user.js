@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const crypto = require('crypto-js');
 const _ = require('lodash');
+const jwt = require('jsonwebtoken');
 
 module.exports = (sequelize, DataTypes)=>{
   var user = sequelize.define('User', {
@@ -59,10 +60,26 @@ module.exports = (sequelize, DataTypes)=>{
         var jsonObj = this.toJSON(); //toJSON is a sequelize instance method that returns an object, not JSON.  This is not the same as JSON.stringify
         return _.pick(jsonObj, 'id', 'email', 'firstName', 'lastName', 'createdAt', 'updatedAt' )
       },
-      generateToken: function (type){
-
-      }
-    },
+      generateToken: function (typeOfToken){
+        //Validate that input is a string
+        if(!_.isString(typeOfToken)){
+          return undefined;
+        }
+        try {
+          //Get user id and typeOfToken, set into an object and stringify.
+          var StringData = JSON.stringify({id: this.get('id'), type: typeOfToken});
+          //encrypt that sucker!
+          var encryptedData = crypto.AES.encrypt(StringData, process.env.CryptoKey).toString();
+          var token = jwt.sign({
+            token: encryptedData
+          }, process.env.JWTKey);
+          return token;
+        } catch (e) {
+          console.error(e);
+          return undefined;
+        }
+      } //end generateToken
+    }, //end instanceMethods
     classMethods: {
       authenticate: (body)=> {
         return new Promise((resolve, reject)=>{
