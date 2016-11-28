@@ -46,9 +46,14 @@ app.post('/users/login', (req, res)=>{
       if(!user){
         return res.status(401).send();
       }
-      res.header('Auth', user.generateToken('authentication')).json(user.toPublicJSON()).send();
-
+      var token = user.generateToken('authentication');
+      if(token){
+        res.header('Auth', token).json(user.toPublicJSON()).send();
+      } else {
+        res.status(401).json(e);
+      }
     }, (e)=>{
+      console.error(e);
       res.status(401).json(e);
     });
 
