@@ -8,7 +8,7 @@ const bcrypt = require('bcrypt');
 const db = require('./db/db.js');
 const jwt = require('jsonwebtoken');
 var PORT = process.env.PORT || 3100;
-const authorize = require('./middleware/pwAuth');
+const authorize = require('./middleware/pwAuth')(db);
 // var hash = bcrypt.hashSync(db.user.password, 10);
 
 
@@ -18,11 +18,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.set('view engine', 'hbs');
 
-
-// app.get('/userPage', authorize.requireAuthentication,  (req, res)=>{
-//
-//
-// });
+//===========================================//
+// ================== USERS =================//
+//===========================================//
 
 //CREATE USER
 app.post('/users', (req, res)=>{
@@ -34,36 +32,41 @@ app.post('/users', (req, res)=>{
   });
 });
 
-
-
-
 //LOGIN AND VALIDATE
 app.post('/users/login', (req, res)=>{
   var body = _.pick(req.body, 'email', 'password');
-  if(_.isString(body.email) && _.isString(body.password)){
+  var userInstance;
+
     //find user in DB by email within authenticate method, which also checks PW
     db.user.authenticate(body).then((user)=>{
-      if(!user){
-        return res.status(401).send();
-      }
+      // if(!user){
+      //   return res.status(401).send();
+      // }
+      userInstance = user;
       var token = user.generateToken('authentication');
-      if(token){
-        res.header('Auth', token).json(user.toPublicJSON()).send();
-      } else {
-        res.status(401).json(e);
-      }
-    }, (e)=>{
+      return db.token.create({token: token});
+    }).then((returnedToken)=>{
+      console.log('returnedToken should not be the hashed value: ', returnedToken.get('token'));
+      res.header('Auth', returnedToken.get('token')).json(userInstance.toPublicJSON());
+    }).catch((e)=>{
       console.error(e);
-      res.status(401).json(e);
+      res.json(e);
     });
 
-  } else {
-    res.status(400).send();
-  }
+
+}); //end app.post login
+
+
+app.delete('/users/login', authorize.requireAuthentication, (req, res)=>{
+  req.token.destroy().then(()=>{
+    res.status(204).send();
+  }).catch((e)=>{
+    console.log(e);
+    res.status(500).send(e.toJSON());
+  });
 });
 
-
-db.sequelize.sync().then(function() {
+db.sequelize.sync({force: true}).then(function() {
 	app.listen(PORT, function() {
 		console.log('Express listening on port ' + PORT + '!');
 	});

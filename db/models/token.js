@@ -1,15 +1,15 @@
-const crypto = require('crypto-js');
+const cryptojs = require('crypto-js');
 
 
 module.exports = (sequelize, DataTypes)=>{
   return sequelize.define('token', {
     token: {
-      type: DataTypes.VIRTUAL,
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
         len: [1]
       },
-      set: (value)=>{
+      set: function (value){
         //first, take the given value and create a hash that can be stored in the DB
         var hash = cryptojs.MD5(value).toString();
         //then set the value to the token, which is only virtually stored in a DB
@@ -18,8 +18,9 @@ module.exports = (sequelize, DataTypes)=>{
   			this.setDataValue('tokenHash', hash);
     } //end set
   }, //end token
-  hash: {
-    type: DataTypes.STRING
+  tokenHash: {
+    type: DataTypes.STRING,
+    allowNull: false
   }
 }); //end sequelize.define
 }; ///end module.exports

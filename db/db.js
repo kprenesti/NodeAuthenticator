@@ -22,4 +22,7 @@ db.token = sequelize.import(__dirname + '/models/token.js');
 //     console.log('Unable to connect to the database:', err);
 //   });
 
+// db.token.belongsTo(db.user);
+// db.user.hasOne(db.token);
+
 module.exports = db;
