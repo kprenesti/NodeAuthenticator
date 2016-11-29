@@ -4,7 +4,7 @@ const cryptojs = require('crypto-js');
 module.exports = (sequelize, DataTypes)=>{
   return sequelize.define('token', {
     token: {
-      type: DataTypes.STRING,
+      type: DataTypes.VIRTUAL,
       allowNull: false,
       validate: {
         len: [1]
