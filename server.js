@@ -16,7 +16,7 @@ const authorize = require('./middleware/pwAuth')(db);
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.set('view engine', 'hbs');
+// app.set('view engine', 'hbs');
 
 //===========================================//
 // ================== USERS =================//
@@ -24,7 +24,7 @@ app.set('view engine', 'hbs');
 
 //CREATE USER
 app.post('/users', (req, res)=>{
-  var body = _.pick(req.body, 'firstName', 'lastName', 'email', 'password');
+  var body = _.pick(req.body, 'username', 'firstName', 'lastName', 'email', 'password');
   db.user.create(body).then((user)=>{
     res.json(user.toPublicJSON()).send();
   }, (e)=>{
@@ -34,7 +34,7 @@ app.post('/users', (req, res)=>{
 
 //LOGIN AND VALIDATE
 app.post('/users/login', (req, res)=>{
-  var body = _.pick(req.body, 'email', 'password');
+  var body = _.pick(req.body, 'email', 'username', 'password');
   var userInstance;
 
     //find user in DB by email within authenticate method, which also checks PW
@@ -56,17 +56,34 @@ app.post('/users/login', (req, res)=>{
 
 }); //end app.post login
 
-
+//LOGOUT
 app.delete('/users/login', authorize.requireAuthentication, (req, res)=>{
   req.token.destroy().then(()=>{
-    res.status(204).send();
+    res
+    .status(204)
+    // .render('loggedOut.hbs', {status: this.status})
+    .send();
   }).catch((e)=>{
     console.log(e);
     res.status(500).send(e.toJSON());
   });
 });
 
-db.sequelize.sync().then(function() {
+//RESET PASSWORD
+app.put('/users/reset', (req, res)=>{
+  var body = _.pick(req.body, 'username', 'email');
+  if(body.username){
+    db.user.findOne({
+      where: {
+        username: body.username
+      }
+    }).then((user)=>{
+      user.get('password_hash')
+    })
+  }
+});
+
+db.sequelize.sync({force: true}).then(function() {
 	app.listen(PORT, function() {
 		console.log('Express listening on port ' + PORT + '!');
 	});

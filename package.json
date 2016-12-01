@@ -18,11 +18,7 @@
     "hbs": "^4.0.1",
     "jsonwebtoken": "^7.1.9",
     "lodash": "^4.17.2",
-    "sequelize": "^3.27.0"
-  },
-  "devDependencies": {
-    "expect": "^1.20.2",
-    "mocha": "^3.1.2",
-    "supertest": "^2.0.1"
+    "sequelize": "^3.27.0",
+    "sqlite3": "^3.1.8"
   }
 }
