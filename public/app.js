@@ -1,23 +1,50 @@
 angular.module('app', ['ui-router'])
-  .config(function ($stateProvider, $urlRouterProvider){
+  .config(function($stateProvider, $urlRouterProvider){
     $urlRouterProvider.otherwise('/');
     $stateProvider
       .state('home', {
         url: '/',
-        templateUrl: 'home.html'
+        templateUrl: './templates/home.html',
+        controller: 'homeController as home',
+        authenticate: false
       })
-      .state('signUp')
-        url: '/signup'
-        templateUrl: 'signup.html',
-        controller: 'signUpController as signUpCtrl'
+      .state('home.login', {
+        component: 'login',
+        authenticate: false
       })
-      .state('login', {
-        url: '/login',
-        templateUrl: 'login.html',
-        controller: 'loginController as loginCtrl'
+      .state('home.signUp', {
+        component: 'signUp',
+        authenticate: false
       })
-      .state('memberInfo', {
-        url: '/memberInfo',
-        templateUrl: 'memberInfo.html',
-        controller: 'memberInfoController as memberInfoCtrl'
+      .state('welcomeUser', {
+        url: '/welcome',
+        templateUrl: './templates/welcome.html',
+        controller: 'welcomeController as welcome',
+        authenticate: true
+      })
+      .state('changePW', {
+        url: '/changePW',
+        templateUrl: './templates/changePW.html',
+        controller: 'changePWController as changePW',
+        authenticate: true
+      })
+      .state('oops', {
+        url: '/oops',
+        template: './templates/oops.html',
+        controller: 'oopsController as oops',
+        authenticate: false
       });
+  })
+  .factory('userInfo', function(){
+    var user;
+    user.setUserData = function(userObj){
+      if(userObj){
+        user = userObj;
+      } else {
+        return
+      }
+
+    }
+    return user;
+
+  });

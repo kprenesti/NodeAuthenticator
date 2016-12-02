@@ -1,0 +1,20 @@
+<div class="signUpForm">
+  <div class="signUpForm__error" ng-show="signup.error">
+    <h2>Ooops! {{signUp.error}}</h2>
+  </div>
+  <form class="signUpForm__form">
+    <label class="signUpForm__label" for="username">Username: </label>
+    <input class="signUpForm__input" type="text" name="username" placeholder="Ex: SneakySnitch1" ng-bind="signup.username"/>
+    <label class="signUpForm__label" for="firstName">First Name: </label>
+    <input class="signUpForm__input" type="text" name="firstName" ng-bind="signup.firstName" placeholder="Ex: Harry">
+    <label class="signUpForm__label" for="lastName">Last Name: </label>
+    <input class="signUpForm__input" type="text" name="firstName" ng-bind="signup.firstName" placeholder="Ex: Potter">
+    <label class="signUpForm__label" for="email">Email: </label>
+    <input class="signUpFor__input" type="email" name="email" ng-bind="signUp.email" placeholder="Ex: basiliskSlayer@hogwarts.edu" />
+    <label class="signUpForm__label" for="password1">Password: </label>
+    <input class="signUpForm__input" type="password" name="password1" ng-bind="signup.password1" placeholder="Create a password">
+    <label class="signUpForm__label" for="password2">Re-enter Password: </label>
+    <input class="signUpForm__input" type="password" name="password2" ng-bind="signup.password2" placeholder="Re-enter your password">
+    <button class="signUpForm__submit" type="subit" ng-click="signup.submitUser()">Submit</button>
+  </form>
+</div>

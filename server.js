@@ -1,22 +1,29 @@
+//==========CONFIG + EXPRESS===========//
 const env = require('dotenv').config();
+var PORT = process.env.PORT || 3100;
 const express = require('express');
 const app = express();
-var bodyParser = require('body-parser');
-
+const bodyParser = require('body-parser');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+const hbs = require('hbs');
 const _ = require('lodash');
+//========AUTH==========//
 const bcrypt = require('bcrypt');
-const db = require('./db/db.js');
 const jwt = require('jsonwebtoken');
-var PORT = process.env.PORT || 3100;
-const authorize = require('./middleware/pwAuth')(db);
-// var hash = bcrypt.hashSync(db.user.password, 10);
+//========DATABASE==========//
+const db = require('./db/db.js');
+
+
+//============MIDDLEWARE============//
+var authorize = require('./middleware/pwAuth')(db);
 
 
 
 app.use(express.static(__dirname + '/public'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-// app.set('view engine', 'hbs');
+app.set('view engine', 'hbs');
+
+
 
 //===========================================//
 // ================== USERS =================//
@@ -52,8 +59,6 @@ app.post('/users/login', (req, res)=>{
       console.error(e);
       res.json(e);
     });
-
-
 }); //end app.post login
 
 //LOGOUT
@@ -70,18 +75,20 @@ app.delete('/users/login', authorize.requireAuthentication, (req, res)=>{
 });
 
 //RESET PASSWORD
-app.put('/users/reset', (req, res)=>{
-  var body = _.pick(req.body, 'username', 'email');
-  if(body.username){
-    db.user.findOne({
-      where: {
-        username: body.username
-      }
-    }).then((user)=>{
-      user.get('password_hash')
-    })
-  }
-});
+// app.put('/users/reset', (req, res)=>{
+//   var body = _.pick(req.body, 'username', 'email');
+//   if(body.username){
+//     db.user.findOne({
+//       where: {
+//         username: body.username
+//       }
+//     }).then((user)=>{
+//       return user.get('password_hash')
+//     }).then(()=>{
+//
+//     })
+//   }
+// });
 
 db.sequelize.sync({force: true}).then(function() {
 	app.listen(PORT, function() {
