@@ -1,0 +1,13 @@
+<div class="changePW">
+  <h2>Change Password</h2>
+  <form>
+    <p class="changePW__error" ng-show="changePW.oops">
+      Error: Passwords don't match.
+    </p>
+    <label for="newPW1">Enter New Password</label>
+    <input type="password" name="newPW1"/>
+    <label for="newPW2">Re-Enter New Password</label>
+    <input name="newPW2" type="password" />
+    <button type="submit" class="changePW__submitBtn">Submit</button>
+  </form>
+</div>

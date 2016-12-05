@@ -1,15 +1,13 @@
 <div class="welcomeUser">
   <h1>Welcome, {{welcome.firstName}}!</h1>
   <p>
-    You made it! You're authenticated and we know who you are!  Don't you feel special! Wait, what? You don't believe we know who you are?? Take a look below for your own details.
+    You made it! You're authenticated and we know who you are!
   </p>
   <div class="welcome__details">
-    <p>
-      Your full name is <strong>{{welcome.firstName + ' ' + welcome.lastName}}</strong>, but online you go by <strong>{{welcome.username}}</strong>.  You can be reached at <strong>{{welcome.email}}</strong>.
-    </p>
-    <p>
-      Are you convinced yet?  Good.  Unfortunately, there's not much more you can do here.  Might as well just logout.
-    </p>
+    <h2>Your Profile</h2>
+    <h3 class="welcome__detail"><strong>Username:</strong> {{welcomeUser.username}}</h3>
+    <h3><strong>Name:</strong> {{welcomeUser.firstName + " " + welcomeUser.lastName}}</h3>
+    <h3><strong>E-mail:</strong> {{welcomeUser.email}}</h3>
   </div>
-
+  <button type="button">Logout</button>
 </div>
