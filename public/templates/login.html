@@ -1,0 +1,11 @@
+<div class="login">
+  <form class="form">
+    <label class="form__label" for="email">Email: </label>
+    <input class="form__input" type="text" name="email" placeholder="Email" ng-bind="login.email"/>
+    <label class="form__label" for="password">Password</label>
+    <input class="form__input" type="password" name="password" ng-bind="login.password">
+    <button class="button button--submit" type="submit" ng-click="login.submitForm()">Login</button>
+  </form>
+  <!-- Password Reset Coming in v2.0 -->
+  <!-- <a ui-sref="forgotPW">Forgot Password?</a> -->
+</div>

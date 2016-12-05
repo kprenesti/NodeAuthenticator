@@ -10,13 +10,13 @@ gulp.task('sass', ()=>{
 });
 
 gulp.task('js', ()=>{
-  return gulp.src(['./public/app.js','./public/**/*.js'])
+  return gulp.src(['./public/app.js','./public/**/*.js', '!./public/js/all.js'])
     .pipe(concat('all.js'))
     .pipe(gulp.dest('./public/js/'));
 });
 
 gulp.task('watch', ()=>{
-  gulp.watch('./public/**/*.js', ()=>{
+  gulp.watch(['./public/**/*.js', '!./public/js/all.js'], ()=>{
     gulp.start('js');
   });
   gulp.watch('./public/**/*.scss', ()=>{

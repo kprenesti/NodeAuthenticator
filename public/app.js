@@ -1,4 +1,4 @@
-angular.module('app', ['ui-router'])
+angular.module('app', ['ui.router'])
   .config(function($stateProvider, $urlRouterProvider){
     $urlRouterProvider.otherwise('/');
     $stateProvider
@@ -9,11 +9,13 @@ angular.module('app', ['ui-router'])
         authenticate: false
       })
       .state('home.login', {
-        component: 'login',
+        templateUrl: './templates/login.html',
+        controller: 'loginController as login',
         authenticate: false
       })
       .state('home.signUp', {
-        component: 'signUp',
+        templateUrl: './templates/signUp.html',
+        controller: 'signUpController as signup',
         authenticate: false
       })
       .state('welcomeUser', {
@@ -22,29 +24,31 @@ angular.module('app', ['ui-router'])
         controller: 'welcomeController as welcome',
         authenticate: true
       })
-      .state('changePW', {
-        url: '/changePW',
-        templateUrl: './templates/changePW.html',
-        controller: 'changePWController as changePW',
-        authenticate: true
-      })
-      .state('oops', {
-        url: '/oops',
-        template: './templates/oops.html',
-        controller: 'oopsController as oops',
-        authenticate: false
-      });
+      // .state('changePW', {
+      //   url: '/changePW',
+      //   templateUrl: './templates/changePW.html',
+      //   controller: 'changePWController as changePW',
+      //   authenticate: true
+      // })
+      ;
+  })
+  .factory('userInfo', function(){
+    var user ={};
+    user.userInstance;
+    user.setUserData = function(userObj){
+      if(userObj){
+        user.userInstance = userObj;
+      } else {
+        return;
+      }
+    }
+    user.getUserData = function(){
+      if(typeof user.userInstance == 'object'){
+        return user.userInstance;
+      } else{
+        return 'Error: The user instance is not valid.'
+      }
+    }
+    return user;
+
   });
-  // .factory('userInfo', function(){
-  //   var user;
-  //   user.setUserData = function(userObj){
-  //     if(userObj){
-  //       user = userObj;
-  //     } else {
-  //       return
-  //     }
-  //
-  //   }
-  //   return user;
-  //
-  // });
