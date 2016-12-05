@@ -19,5 +19,12 @@
     "lodash": "^4.17.2",
     "sequelize": "^3.27.0",
     "sqlite3": "^3.1.8"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-sass": "^2.3.2",
+    "gulp-uglify": "^2.0.0",
+    "gulp-watch": "^4.3.11"
   }
 }

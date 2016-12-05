@@ -34,17 +34,17 @@ angular.module('app', ['ui-router'])
         controller: 'oopsController as oops',
         authenticate: false
       });
-  })
-  .factory('userInfo', function(){
-    var user;
-    user.setUserData = function(userObj){
-      if(userObj){
-        user = userObj;
-      } else {
-        return
-      }
-
-    }
-    return user;
-
   });
+  // .factory('userInfo', function(){
+  //   var user;
+  //   user.setUserData = function(userObj){
+  //     if(userObj){
+  //       user = userObj;
+  //     } else {
+  //       return
+  //     }
+  //
+  //   }
+  //   return user;
+  //
+  // });
