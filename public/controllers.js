@@ -10,27 +10,27 @@ var app = angular.module('app');
 
     signup. checkPassword = function(pw1, pw2){
       if(pw1 === pw2){
-      signUp.password = pw1;
+      signup.password = pw1;
       } else {
-        signUp.error = "Error: Passwords Don't Match!";
+        signup.error = "Error: Passwords Don't Match!";
       }
     }
-    function checkEmail(email) {
+    signup.function checkEmail(email) {
       var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
       if (!reg.test(email)) return signUp.error = "Error: Please enter a valid e-mail address.";
       return true;
   }
-    signUp.user = {
-      username: signUp.username,
-      firstName: signUp.firstName,
-      lastName: signUp.lastName,
-      password: signUp.password,
-      email: signUp.email
+    signup.user = {
+      username: signup.username,
+      firstName: signup.firstName,
+      lastName: signup.lastName,
+      password: signup.password,
+      email: signup.email
     };
-    signUp.submitForm = function(){
-      checkPassword(signUp.password1, signUp.password2);
-      checkEmail(signUp.email);
-      $http.post('/users', signUp.user).then(function(user){
+    signup.submitForm = function(){
+      signup.checkPassword(signUp.password1, signUp.password2);
+      signup.checkEmail(signup.email);
+      $http.post('/users', signup.user).then(function(user){
         userInfo.setUserData(user);
         console.log(user);
       })

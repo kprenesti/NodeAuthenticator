@@ -67,7 +67,7 @@ module.exports = (sequelize, DataTypes)=>{
     instanceMethods: {
       toPublicJSON: function(){
         var jsonObj = this.toJSON(); //toJSON is a sequelize instance method that returns an object, not JSON.  This is not the same as JSON.stringify
-        return _.pick(jsonObj, 'id', 'email', 'firstName', 'lastName', 'createdAt', 'updatedAt' )
+        return _.pick(jsonObj, 'id', 'username', 'email', 'firstName', 'lastName', 'createdAt', 'updatedAt' )
       },
       generateToken: function (typeOfToken){
         //Validate that input is a string
