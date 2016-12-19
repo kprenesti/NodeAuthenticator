@@ -101,8 +101,8 @@ var app = angular.module('app');
       };
       if(fields && pw){
         $http.post('/users', JSON.stringify(signup.user)).then(function(user){
-
-          console.log(user);
+          userInfo.setUserData(user.data);
+          $state.go('welcomeUser');
         }).catch(function(e){
           console.log(e);
         });
