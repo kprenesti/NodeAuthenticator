@@ -1,0 +1,17 @@
+{
+  "name": "learning-to-authenticate",
+  "description": "This is a practice full-stack project that simply allows a user to sign up, login, see their user info, and logout.  This version does not use Passport.",
+  "main": "index.js",
+  "authors": [
+    "Krista Prenesti <kprenesti@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/kprenesti/NodeAuthenticator",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
