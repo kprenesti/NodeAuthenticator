@@ -46,7 +46,7 @@ var app = angular.module('app');
       if(fields && pw){
         $http.post('/users', JSON.stringify(signup.user)).then(function(user){
           userInfo.setUserData(user.data);
-          $state.go('welcomeUser');
+          $state.go('home.login');
         }).catch(function(e){
           console.log(e);
           signup.error = "Something went wrong! " + e.statusText;
@@ -83,7 +83,7 @@ app.controller('homeController', function(){
   home.message = "This is a simple demonstration of the authorization process in Node.  This authorization was done by using password encryption and utilizing JSON web tokens.  You will be able to sign up, log in, see your information, and log out."
 });
 
-app.controller('loginController', function($http, userInfo){
+app.controller('loginController', function($http, userInfo, $state){
   var login = this;
   var type;
   if(userInfo.userInstance){
@@ -116,6 +116,7 @@ app.controller('loginController', function($http, userInfo){
     $http.post('users/login', JSON.stringify(creds)).then(function(user){
       console.log('user: ', user);
       userInfo.userInstance = user.data;
+      $state.go('welcomeUser');
     })
   };
 
