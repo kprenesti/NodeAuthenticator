@@ -33,9 +33,9 @@ var app = angular.module('app');
       if(fields){
          pw = signup.checkPassword(signup.password1, signup.password2);
       }
-      if(!fields || !pw){
-        $state.transitionTo($state.current, {}, {reload: false});
-      }
+      // if(!fields || !pw){
+      //   $state.transitionTo($state.current, {}, {reload: false});
+      // }
       signup.user = {
         username: signup.username,
         firstName: signup.firstName,
@@ -49,6 +49,7 @@ var app = angular.module('app');
           $state.go('welcomeUser');
         }).catch(function(e){
           console.log(e);
+          signup.error = "Something went wrong! " + e.statusText;
         });
         console.log(fields, pw);
       }
@@ -62,9 +63,65 @@ var app = angular.module('app');
     }
   });
 
-
+app.controller('welcomeController', function(userInfo, $state, $http){
+  var welcome = this;
+  welcome.firstName = userInfo.userInstance.firstName;
+  welcome.lastName = userInfo.userInstance.lastName;
+  welcome.username = userInfo.userInstance.username;
+  welcome.email = userInfo.userInstance.email;
+  welcome.logout = function(){
+    $http.delete('/users/login').then(function(status){
+      console.log('status: ', status);
+    })
+    //add only if successfully logged out
+    // $state.go('home.login');
+  }
+});
 
 app.controller('homeController', function(){
   var home = this;
   home.message = "This is a simple demonstration of the authorization process in Node.  This authorization was done by using password encryption and utilizing JSON web tokens.  You will be able to sign up, log in, see your information, and log out."
 });
+
+app.controller('loginController', function($http, userInfo){
+  var login = this;
+  var type;
+  if(userInfo.userInstance){
+    login.firstName = userInfo.userInstance.firstName;
+  }
+  function checkFields(){
+    if(!login.creds || !login.password){
+      login.error = "Please fill in all fields."
+    }
+    if(login.creds && /@/gi.test(login.creds)){
+      login.email = login.creds;
+      type = 'Email';
+      console.log('email', login.email)
+    } else {
+      login.username = login.creds;
+      console.log('username', login.username);
+      type = 'Username';
+    }
+  }
+  login.submit = function(){
+    checkFields();
+    var creds = {};
+      if(login.email){
+        creds.email = login.email;
+      } else if(login.username){
+        creds.username = login.username;
+      }
+     creds.password = login.password;
+
+    $http.post('users/login', JSON.stringify(creds)).then(function(user){
+      console.log('user: ', user);
+      userInfo.userInstance = user.data;
+    })
+  };
+
+
+
+
+
+
+})

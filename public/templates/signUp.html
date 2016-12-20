@@ -2,7 +2,7 @@
   <div class="error" ng-if="signup.error">
     <h2>Ooops! {{signup.error}}</h2>
   </div>
-  <form class="form" ng-submit='signup.checkFields()'>
+  <form class="form">
     <label class="form__label required" for="username">Username: </label>
     <input class="form__input" type="text" name="username" placeholder="Ex: SneakySnitch1" ng-model="signup.username"/>
     <br />
@@ -21,6 +21,6 @@
     <label class="form__label required" for="password2">Re-enter Password: </label>
     <input class="form__input" type="password" name="password2" ng-model="signup.password2" placeholder="Re-enter your password">
     <br />
-    <button class="form__submit" type="subit">Submit</button>
+    <button class="form__submit" type="subit" ng-click="signup.checkFields()">Submit</button>
   </form>
 </div>

@@ -1,10 +1,12 @@
 <div class="login">
+  <h2 ng-show="login.firstName">Thanks for signing up, {{login.firstName}}! Please login to see your profile.</h2>
+  <h2 class="error" ng-show="login.error">Ooops. {{login.error}}</h2>
   <form class="form">
-    <label class="form__label" for="email">Email: </label>
-    <input class="form__input" type="text" name="email" placeholder="Email" ng-bind="login.email"/>
+    <label class="form__label" for="email">Username or Email: </label>
+    <input class="form__input" type="text" name="email" placeholder="Username or Email" ng-model="login.creds"/>
     <label class="form__label" for="password">Password</label>
-    <input class="form__input" type="password" name="password" ng-bind="login.password">
-    <button class="button button--submit" type="submit" ng-click="login.submitForm()">Login</button>
+    <input class="form__input" type="password" name="password" ng-model="login.password">
+    <button class="button button--submit" type="submit" ng-click="login.submit()">Login</button>
   </form>
   <!-- Password Reset Coming in v2.0 -->
   <!-- <a ui-sref="forgotPW">Forgot Password?</a> -->
