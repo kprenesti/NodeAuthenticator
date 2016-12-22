@@ -183,9 +183,16 @@ app.controller('loginController', function($http, userInfo, $state){
      creds.password = login.password;
 
     $http.post('users/login', JSON.stringify(creds)).then(function(user){
-      console.log('user: ', user);
-      userInfo.userInstance = user.data;
-      $state.go('welcomeUser');
+      if(!user.data.firstName){
+        login.error = "Incorrect " + type + " or Password.";
+      } else {
+        console.log('user: ', user);
+        // console.log('headers: ', user.headers);
+        userInfo.userInstance = user.data;
+        console.log(userInfo.userInstance);
+        $state.go('welcomeUser');
+      }
+
     })
   };
 
