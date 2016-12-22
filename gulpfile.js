@@ -1,12 +1,13 @@
 var gulp = require('gulp'),
     watch = require('gulp-watch'),
     concat = require('gulp-concat'),
+    sass = require('gulp-sass'),
     uglify = require('gulp-uglify');
 
 gulp.task('sass', ()=>{
   return gulp.src('./public/styles/main.scss')
     .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest('./public/styles/main.css'));
+    .pipe(gulp.dest('./public/styles'));
 });
 
 gulp.task('js', ()=>{
