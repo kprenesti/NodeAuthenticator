@@ -6,7 +6,20 @@ angular.module('app', ['ui.router'])
         url: '/',
         templateUrl: './templates/home.html',
         controller: 'homeController as home',
-        authenticate: false
+        authenticate: false,
+        resolve: {
+                PreviousState: [
+                    "$state",
+                    function ($state) {
+                        var currentStateData = {
+                            Name: $state.current.name,
+                            Params: $state.params,
+                            URL: $state.href($state.current.name, $state.params)
+                        };
+                        return currentStateData;
+                    }
+                ]
+            }
       })
       .state('home.login', {
         templateUrl: './templates/login.html',

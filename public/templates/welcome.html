@@ -5,9 +5,9 @@
   </p>
   <div class="welcome__details">
     <h2>Your Profile</h2>
-    <h3 class="welcome__detail"><strong>Username:</strong> {{welcomeUser.username}}</h3>
-    <h3><strong>Name:</strong> {{welcomeUser.firstName + " " + welcomeUser.lastName}}</h3>
-    <h3><strong>E-mail:</strong> {{welcomeUser.email}}</h3>
+    <h3 class="welcome__detail"><strong>Username:</strong> {{welcome.username}}</h3>
+    <h3><strong>Name:</strong> {{welcome.firstName + " " + welcome.lastName}}</h3>
+    <h3><strong>E-mail:</strong> {{welcome.email}}</h3>
   </div>
-  <button ng-click="welcomeUser.logout()" type="button">Logout</button>
+  <button ng-click="welcome.logout()" type="button">Logout</button>
 </div>
