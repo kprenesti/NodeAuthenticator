@@ -117,7 +117,7 @@ app.controller('loginController', function($http, userInfo, $state){
       if(!user.data.firstName){
         login.error = "Incorrect " + type + " or Password.";
       } else {
-        console.log('user: ', user);
+        console.log('user headers: ', user.headers);
         // console.log('headers: ', user.headers);
         userInfo.userInstance = user.data;
         console.log(userInfo.userInstance);
