@@ -6,7 +6,6 @@ const app = express();
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-const hbs = require('hbs');
 const _ = require('lodash');
 //========AUTH==========//
 const bcrypt = require('bcrypt');
@@ -21,7 +20,6 @@ var authorize = require('./middleware/pwAuth')(db);
 
 
 app.use(express.static(__dirname + '/public'));
-app.set('view engine', 'hbs');
 
 
 
