@@ -6,7 +6,7 @@ module.exports = function (db) {
 		requireAuthentication: function (req, res, next) {
       debugger;
 			var token = req.get('Auth') || '';
-
+			console.log('token as seen by the middleware: ', token);
 			db.token.findOne({
 				where: {
 					tokenHash: cryptojs.MD5(token).toString()
@@ -20,8 +20,7 @@ module.exports = function (db) {
           req.user = returnedUser;
           next();
         } else {
-          console.log("There's no user, but I'm letting you move on anyway...")
-          next();
+          console.log("There's no user, but I'm letting you move on anyway...Which is, in itself, an error...Hmm.")
         }
 
 			}).catch(function () {

@@ -65,7 +65,4 @@ angular.module('app', ['ui.router', 'ngCookies'])
     }
     return user;
 
-  })
-  .factory('cookies', function($cookies){
-
   });

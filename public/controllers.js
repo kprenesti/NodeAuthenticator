@@ -63,16 +63,23 @@ var app = angular.module('app');
     }
   });
 
-app.controller('welcomeController', function(userInfo, $state, $http){
+app.controller('welcomeController', function(userInfo, $state, $http, $cookies){
   var welcome = this;
   welcome.firstName = userInfo.userInstance.firstName;
   welcome.lastName = userInfo.userInstance.lastName;
   welcome.username = userInfo.userInstance.username;
   welcome.email = userInfo.userInstance.email;
   welcome.logout = function(){
-    $http.delete('/users/login').then(function(status){
+    $http({
+ method: 'DELETE',
+ url: '/users/login',
+ headers: {
+   'Auth': $cookies.get('Auth')
+ }
+})
+.then(function(status){
       console.log('status: ', status);
-    })
+    });
     //add only if successfully logged out
     // $state.go('home.login');
   }
@@ -118,12 +125,11 @@ app.controller('loginController', function($http, userInfo, $state, $cookies){
         login.error = "Incorrect " + type + " or Password.";
       } else {
         console.log(user.headers('Auth'));
-        $cookies.put('auth', user.headers('Auth'));
+        $cookies.put('Auth', user.headers('Auth'));
         userInfo.userInstance = user.data;
         console.log(userInfo.userInstance);
         $state.go('welcomeUser');
       }
-
     })
   };
 

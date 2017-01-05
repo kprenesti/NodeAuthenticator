@@ -51,7 +51,6 @@ app.post('/users/login', (req, res)=>{
       var token = user.generateToken('authentication');
       return db.token.create({token: token});
     }).then((returnedToken)=>{
-      console.log('returnedToken should not be the hashed value: ', returnedToken.get('token'));
       res.header('Auth', returnedToken.get('token')).json(userInstance.toPublicJSON());
     }).catch((e)=>{
       console.error(e);
@@ -74,7 +73,7 @@ app.delete('/users/login', authorize.requireAuthentication, (req, res)=>{
 
 //RESET PASSWORD
 // app.put('/users/reset', (req, res)=>{
-//   var body = _.pick(req.body, 'username', 'email');
+//   var body = _.pick(req.body, 'username', 'email', 'password');
 //   if(body.username){
 //     db.user.findOne({
 //       where: {
