@@ -1,5 +1,6 @@
-angular.module('app', ['ui.router'])
-  .config(function($stateProvider, $urlRouterProvider){
+angular.module('app', ['ui.router', 'ngCookies'])
+  .config(function($stateProvider, $urlRouterProvider, $locationProvider){
+    $locationProvider.html5Mode(true);
     $urlRouterProvider.otherwise('/');
     $stateProvider
       .state('home', {

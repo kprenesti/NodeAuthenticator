@@ -93,47 +93,68 @@ module.exports = (sequelize, DataTypes)=>{
       authenticate: (body)=> {
         return new Promise((resolve, reject)=>{
           //Check to make sure they entered valid input types
-          if(typeof body.email !== 'string' || typeof body.password !== 'string'){
+          if(!body.password || typeof body.password !== 'string'){
             return reject();
+          } else if(body.email){
+            if(typeof body.email !== 'string') {
+              return reject();
+            }
+            user.findOne({
+              where: {
+                email: body.email
+              }
+              //When (if) user found, check user against password.
+            }).then((user)=>{
+              //this is where the actual checking against PW happens!
+              //Check to make sure that the bcrypted password_hash matches the inputed PW
+              if(!user || !bcrypt.compareSync(body.password, user.get('password_hash'))){
+                return reject('Incorrect Password.');
+              }
+              return resolve(user);
+            });
+          } else if(body.username){
+            if(typeof body.username !== 'string'){
+              return reject();
+            }
+            user.findOne({
+              where: {
+                username: body.username
+              }
+              //When (if) user found, check user against password.
+            }).then((user)=>{
+              //this is where the actual checking against PW happens!
+              //Check to make sure that the bcrypted password_hash matches the inputed PW
+              if(!user || !bcrypt.compareSync(body.password, user.get('password_hash'))){
+                return reject('Incorrect Password.');
+              }
+              return resolve(user);
+            });
           }
-          //Locate the correct user by e-mail
-          user.findOne({
-            where: {
-              email: body.email
-            }
-            //When (if) user found, check user against password.
-          }).then((user)=>{
-            //this is where the actual checking against PW happens!
-            //Check to make sure that the bcrypted password_hash matches the inputed PW
-            if(!user || !bcrypt.compareSync(body.password, user.get('password_hash'))){
-              return reject('Incorrect Password.');
-            }
-            return resolve(user);
-          });
-        })
+
+        }); //end new promise
       }, // end authenticate
       findByToken: function(token) {
-				return new Promise(function(resolve, reject) {
-					try {
-						var decodedJWT = jwt.verify(token, process.env.JWTKey);
-						var bytes = crypto.AES.decrypt(decodedJWT.token, process.env.CryptoKey);
-						var tokenData = JSON.parse(bytes.toString(crypto.enc.Utf8));
+        return new Promise(function(resolve, reject) {
+          try {
+            var decodedJWT = jwt.verify(token, process.env.JWTKey);
+            var bytes = crypto.AES.decrypt(decodedJWT.token, process.env.CryptoKey);
+            var tokenData = JSON.parse(bytes.toString(crypto.enc.Utf8));
 
-						user.findById(tokenData.id).then(function (user) {
-							if (user) {
-								resolve(user);
-							} else {
-								reject();
-							}
-						}, function (e) {
-							reject();
-						});
-					} catch (e) {
+            user.findById(tokenData.id).then(function (user) {
+              if (user) {
+                resolve(user);
+              } else {
+                reject();
+              }
+            }, function (e) {
+              reject();
+            });
+          } catch (e) {
             console.error(e);
-						reject();
-					}
-				});
-			}
+            reject();
+          }
+        });
+      }
     } //end classMethods
   });
   return user;

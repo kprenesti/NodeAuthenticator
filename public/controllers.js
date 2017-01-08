@@ -63,16 +63,23 @@ var app = angular.module('app');
     }
   });
 
-app.controller('welcomeController', function(userInfo, $state, $http){
+app.controller('welcomeController', function(userInfo, $state, $http, $cookies){
   var welcome = this;
   welcome.firstName = userInfo.userInstance.firstName;
   welcome.lastName = userInfo.userInstance.lastName;
   welcome.username = userInfo.userInstance.username;
   welcome.email = userInfo.userInstance.email;
   welcome.logout = function(){
-    $http.delete('/users/login').then(function(status){
+    $http({
+ method: 'DELETE',
+ url: '/users/login',
+ headers: {
+   'Auth': $cookies.get('Auth')
+ }
+})
+.then(function(status){
       console.log('status: ', status);
-    })
+    });
     //add only if successfully logged out
     // $state.go('home.login');
   }
@@ -83,7 +90,7 @@ app.controller('homeController', function(){
   home.message = "This is a simple demonstration of the authorization process in Node.  This authorization was done by using password encryption and utilizing JSON web tokens.  You will be able to sign up, log in, see your information, and log out."
 });
 
-app.controller('loginController', function($http, userInfo, $state){
+app.controller('loginController', function($http, userInfo, $state, $cookies){
   var login = this;
   var type;
   if(userInfo.userInstance){
@@ -117,13 +124,12 @@ app.controller('loginController', function($http, userInfo, $state){
       if(!user.data.firstName){
         login.error = "Incorrect " + type + " or Password.";
       } else {
-        console.log('user: ', user);
-        // console.log('headers: ', user.headers);
+        console.log(user.headers('Auth'));
+        $cookies.put('Auth', user.headers('Auth'));
         userInfo.userInstance = user.data;
         console.log(userInfo.userInstance);
         $state.go('welcomeUser');
       }
-
     })
   };
 
