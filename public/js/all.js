@@ -65,9 +65,6 @@ angular.module('app', ['ui.router', 'ngCookies'])
     }
     return user;
 
-  })
-  .factory('cookies', function($cookies){
-
   });
 
 
@@ -198,12 +195,11 @@ app.controller('loginController', function($http, userInfo, $state, $cookies){
         login.error = "Incorrect " + type + " or Password.";
       } else {
         console.log(user.headers('Auth'));
-        $cookies.put('Auth', user.headers('Auth'), {secure: true});
+        $cookies.put('Auth', user.headers('Auth'));
         userInfo.userInstance = user.data;
         console.log(userInfo.userInstance);
         $state.go('welcomeUser');
       }
-
     })
   };
 
@@ -212,4 +208,4 @@ app.controller('loginController', function($http, userInfo, $state, $cookies){
 
 
 
-})
+});
