@@ -1,5 +1,22 @@
-angular.module('app', ['ui.router', 'ngCookies'])
-  .config(function($stateProvider, $urlRouterProvider, $locationProvider){
+angular.module('app', ['ui.router', 'ngCookies', 'ngMaterial'])
+  .config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $localStorage){
+    $httpProvider.interceptors.push(function($location, $localStorage, $state, $q){
+      return {
+        'request': function(config){
+          config.headers = config.headers || {};
+          if($localStorage.token){
+            config.headers.Authorization = 'Bearer' + $localStorage.token;
+          }
+          return config;
+        },
+        'responseError': function(response){
+          if(response.status === 401 || response.status === 403){
+            $state.go('home.login');
+          }
+          return $q.reject(response);
+        }
+      }
+    });
     $locationProvider.html5Mode(true);
     $urlRouterProvider.otherwise('/');
     $stateProvider
@@ -7,20 +24,7 @@ angular.module('app', ['ui.router', 'ngCookies'])
         url: '/',
         templateUrl: './templates/home.html',
         controller: 'homeController as home',
-        authenticate: false,
-        resolve: {
-                PreviousState: [
-                    "$state",
-                    function ($state) {
-                        var currentStateData = {
-                            Name: $state.current.name,
-                            Params: $state.params,
-                            URL: $state.href($state.current.name, $state.params)
-                        };
-                        return currentStateData;
-                    }
-                ]
-            }
+        authenticate: false
       })
       .state('home.login', {
         templateUrl: './templates/login.html',
