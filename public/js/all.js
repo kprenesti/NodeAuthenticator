@@ -1,4 +1,4 @@
-angular.module('app', ['ui.router', 'ngCookies'])
+angular.module('app', ['ui.router', 'ngCookies', 'ngMaterial'])
   .config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $localStorage){
     $httpProvider.interceptors.push(function($location, $localStorage, $state, $q){
       return {
@@ -69,6 +69,30 @@ angular.module('app', ['ui.router', 'ngCookies'])
     }
     return user;
 
+  })
+  .factory('authenticationService', function($http, $localStorage){
+     var authService = {};
+     authService.login = function(creds, cb){
+       $http.post('/users/login', JSON.stringify(creds))
+        .then(function(res){
+          if(res.token){
+            $localStorage.currentUser = creds;
+            $localStorage.currentUser.token = res.token;
+            $http.defaults.headers.common.Auth = res.token;
+            cb(true);
+          } else {
+            cb(false);
+          }
+        }).catch(e){
+          console.log(e);
+        }
+     };
+     authService.Logout = function() {
+            // remove user from local storage and clear http auth header
+            delete $localStorage.currentUser;
+            $http.defaults.headers.common.Auth = '';
+          };
+     return authService;
   });
 
 
@@ -164,7 +188,7 @@ app.controller('homeController', function(){
   home.message = "This is a simple demonstration of the authorization process in Node.  This authorization was done by using password encryption and utilizing JSON web tokens.  You will be able to sign up, log in, see your information, and log out."
 });
 
-app.controller('loginController', function($http, userInfo, $state, $cookies){
+app.controller('loginController', function($http, userInfo, $state, authenticationService){
   var login = this;
   var type;
   if(userInfo.userInstance){
@@ -193,16 +217,11 @@ app.controller('loginController', function($http, userInfo, $state, $cookies){
         creds.username = login.username;
       }
      creds.password = login.password;
-
-    $http.post('users/login', JSON.stringify(creds)).then(function(user){
-      if(!user.data.firstName){
-        login.error = "Incorrect " + type + " or Password.";
-      } else {
-        console.log(user.headers('Auth'));
-        $cookies.put('Auth', user.headers('Auth'));
-        userInfo.userInstance = user.data;
-        console.log(userInfo.userInstance);
+    authenticationService.login(creds, function(result){
+      if(result === 'true'){
         $state.go('welcomeUser');
+      } else {
+        login.error = "Invalid credentials.  Please try again."
       }
     })
   };

@@ -90,7 +90,7 @@ app.controller('homeController', function(){
   home.message = "This is a simple demonstration of the authorization process in Node.  This authorization was done by using password encryption and utilizing JSON web tokens.  You will be able to sign up, log in, see your information, and log out."
 });
 
-app.controller('loginController', function($http, userInfo, $state, $cookies){
+app.controller('loginController', function($http, userInfo, $state, authenticationService){
   var login = this;
   var type;
   if(userInfo.userInstance){
@@ -119,16 +119,11 @@ app.controller('loginController', function($http, userInfo, $state, $cookies){
         creds.username = login.username;
       }
      creds.password = login.password;
-
-    $http.post('users/login', JSON.stringify(creds)).then(function(user){
-      if(!user.data.firstName){
-        login.error = "Incorrect " + type + " or Password.";
-      } else {
-        console.log(user.headers('Auth'));
-        $cookies.put('Auth', user.headers('Auth'));
-        userInfo.userInstance = user.data;
-        console.log(userInfo.userInstance);
+    authenticationService.login(creds, function(result){
+      if(result === 'true'){
         $state.go('welcomeUser');
+      } else {
+        login.error = "Invalid credentials.  Please try again."
       }
     })
   };
