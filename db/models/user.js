@@ -62,6 +62,7 @@ module.exports = (sequelize, DataTypes)=>{
     hooks: {
       beforeValidate: function(User, options){
         User.email = User.email.toLowerCase();
+        User.username = User.username.toLowerCase();
       }
     },
     instanceMethods: {
@@ -101,7 +102,7 @@ module.exports = (sequelize, DataTypes)=>{
             }
             user.findOne({
               where: {
-                email: body.email
+                email: body.email.toLowerCase()
               }
               //When (if) user found, check user against password.
             }).then((user)=>{
@@ -118,7 +119,7 @@ module.exports = (sequelize, DataTypes)=>{
             }
             user.findOne({
               where: {
-                username: body.username
+                username: body.username.toLowerCase()
               }
               //When (if) user found, check user against password.
             }).then((user)=>{
