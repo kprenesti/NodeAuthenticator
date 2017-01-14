@@ -133,4 +133,4 @@ app.controller('loginController', function($http, userInfo, $state, authenticati
 
 
 
-})
+});
