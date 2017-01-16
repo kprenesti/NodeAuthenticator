@@ -1,4 +1,4 @@
-angular.module('app', ['ui.router', 'ngCookies', 'ngMaterial'])
+angular.module('app', ['ui.router', 'ngCookies', 'ngMaterial', 'ngStorage'])
   .config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $localStorage){
     $httpProvider.interceptors.push(function($location, $localStorage, $state, $q){
       return {
