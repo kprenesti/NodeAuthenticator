@@ -1,6 +1,6 @@
 angular.module('app', ['ui.router', 'ngCookies', 'ngMaterial', 'ngStorage'])
   .config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $localStorage){
-    $httpProvider.interceptors.push(function($location, $localStorage, $state, $q){
+    $httpProvider.interceptors.push(function($location, $localStorage, $state){
       return {
         'request': function(config){
           config.headers = config.headers || {};
@@ -13,7 +13,7 @@ angular.module('app', ['ui.router', 'ngCookies', 'ngMaterial', 'ngStorage'])
           if(response.status === 401 || response.status === 403){
             $state.go('home.login');
           }
-          return $q.reject(response);
+
         }
       }
     });
@@ -42,59 +42,14 @@ angular.module('app', ['ui.router', 'ngCookies', 'ngMaterial', 'ngStorage'])
         controller: 'welcomeController as welcome',
         authenticate: true
       })
-      // .state('changePW', {
-      //   url: '/changePW',
-      //   templateUrl: './templates/changePW.html',
-      //   controller: 'changePWController as changePW',
-      //   authenticate: true
-      // })
+      .state('changePW', {
+        url: '/changePW',
+        templateUrl: './templates/changePW.html',
+        controller: 'changePWController as changePW',
+        authenticate: true
+      })
       ;
-  })
-  .factory('userInfo', function(){
-    var user ={};
-    user.userInstance;
-    user.setUserData = function(userObj){
-      if(userObj){
-        user.userInstance = userObj;
-      } else {
-        return;
-      }
-    }
-    user.getUserData = function(){
-      if(typeof user.userInstance == 'object'){
-        return user.userInstance;
-      } else{
-        return 'Error: The user instance is not valid.'
-      }
-    }
-    return user;
-
-  })
-  .factory('authenticationService', function($http, $localStorage){
-     var authService = {};
-     authService.login = function(creds, cb){
-       $http.post('/users/login', JSON.stringify(creds))
-        .then(function(res){
-          if(res.token){
-            $localStorage.currentUser = creds;
-            $localStorage.currentUser.token = res.token;
-            $http.defaults.headers.common.Auth = res.token;
-            cb(true);
-          } else {
-            cb(false);
-          }
-        }).catch(e){
-          console.log(e);
-        }
-     };
-     authService.Logout = function() {
-            // remove user from local storage and clear http auth header
-            delete $localStorage.currentUser;
-            $http.defaults.headers.common.Auth = '';
-          };
-     return authService;
   });
-
 
 angular.module('app').controller('homeController', function(){
   var home = this;
@@ -229,4 +184,51 @@ app.controller('welcomeController', function(userInfo, $state, $http, $localStor
     //add only if successfully logged out
     // $state.go('home.login');
   }
+});
+
+angular.module('app')
+.factory('authenticationService', function($http, $localStorage){
+   var authService = {};
+   authService.login = function(creds, cb){
+     $http.post('/users/login', JSON.stringify(creds))
+      .then(function(res){
+        if(res.token){
+          $localStorage.currentUser = creds;
+          $localStorage.currentUser.token = res.token;
+          $http.defaults.headers.common.Auth = res.token;
+          cb(true);
+        } else {
+          cb(false);
+        }
+      }).catch(e){
+        console.log(e);
+      }
+   };
+   authService.Logout = function() {
+          // remove user from local storage and clear http auth header
+          delete $localStorage.currentUser;
+          $http.defaults.headers.common.Auth = '';
+        };
+   return authService;
+});
+
+.factory('userInfo', function(){
+  var user ={};
+  user.userInstance;
+  user.setUserData = function(userObj){
+    if(userObj){
+      user.userInstance = userObj;
+    } else {
+      return;
+    }
+  }
+  user.getUserData = function(){
+    if(typeof user.userInstance == 'object'){
+      return user.userInstance;
+    } else{
+      return 'Error: The user instance is not valid.'
+    }
+  }
+  return user;
+
 });
