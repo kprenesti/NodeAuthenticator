@@ -16,7 +16,7 @@ angular.module('app', ['ui.router', 'ngCookies', 'ngMaterial', 'ngStorage'])
 
         }
       }
-    });
+    }); //end httpProvider
     $locationProvider.html5Mode(true);
     $urlRouterProvider.otherwise('/');
     $stateProvider
@@ -47,6 +47,5 @@ angular.module('app', ['ui.router', 'ngCookies', 'ngMaterial', 'ngStorage'])
         templateUrl: './templates/changePW.html',
         controller: 'changePWController as changePW',
         authenticate: true
-      })
-      ;
+      });
   });
