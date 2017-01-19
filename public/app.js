@@ -1,6 +1,6 @@
-angular.module('app', ['ui.router', 'ngCookies', 'ngMaterial'])
+angular.module('app', ['ui.router', 'ngCookies', 'ngMaterial', 'ngStorage'])
   .config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $localStorage){
-    $httpProvider.interceptors.push(function($location, $localStorage, $state, $q){
+    $httpProvider.interceptors.push(function($location, $localStorage, $state){
       return {
         'request': function(config){
           config.headers = config.headers || {};
@@ -13,10 +13,10 @@ angular.module('app', ['ui.router', 'ngCookies', 'ngMaterial'])
           if(response.status === 401 || response.status === 403){
             $state.go('home.login');
           }
-          return $q.reject(response);
+
         }
       }
-    });
+    }); //end httpProvider
     $locationProvider.html5Mode(true);
     $urlRouterProvider.otherwise('/');
     $stateProvider
@@ -42,31 +42,10 @@ angular.module('app', ['ui.router', 'ngCookies', 'ngMaterial'])
         controller: 'welcomeController as welcome',
         authenticate: true
       })
-      // .state('changePW', {
-      //   url: '/changePW',
-      //   templateUrl: './templates/changePW.html',
-      //   controller: 'changePWController as changePW',
-      //   authenticate: true
-      // })
-      ;
-  })
-  .factory('userInfo', function(){
-    var user ={};
-    user.userInstance;
-    user.setUserData = function(userObj){
-      if(userObj){
-        user.userInstance = userObj;
-      } else {
-        return;
-      }
-    }
-    user.getUserData = function(){
-      if(typeof user.userInstance == 'object'){
-        return user.userInstance;
-      } else{
-        return 'Error: The user instance is not valid.'
-      }
-    }
-    return user;
-
+      .state('changePW', {
+        url: '/changePW',
+        templateUrl: './templates/changePW.html',
+        controller: 'changePWController as changePW',
+        authenticate: true
+      });
   });
