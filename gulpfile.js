@@ -11,7 +11,7 @@ gulp.task('sass', ()=>{
 });
 
 gulp.task('js', ()=>{
-  return gulp.src(['./public/app.js','./public/**/*.js', '!./public/js/all.js'])
+  return gulp.src(['./public/app.js','./public/services/*.js', './public/controllers/*.js','!./public/js/all.js'])
     .pipe(concat('all.js'))
     .pipe(gulp.dest('./public/js/'));
 });

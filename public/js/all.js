@@ -1,22 +1,11 @@
-angular.module('app', ['ui.router', 'ngCookies', 'ngMaterial', 'ngStorage'])
-  .config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $localStorage){
-    $httpProvider.interceptors.push(function($location, $localStorage, $state){
-      return {
-        'request': function(config){
-          config.headers = config.headers || {};
-          if($localStorage.token){
-            config.headers.Authorization = 'Bearer' + $localStorage.token;
-          }
-          return config;
-        },
-        'responseError': function(response){
-          if(response.status === 401 || response.status === 403){
-            $state.go('home.login');
-          }
-
-        }
-      }
-    }); //end httpProvider
+angular.module('app', ['ui.router', 'ngMaterial', 'ngStorage'])
+  // .run(function($rootScope, $state, $localStorageProvider){
+  //   $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams){
+  //
+  //   }
+  // })
+  .config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $localStorageProvider){
+    $httpProvider.interceptors.push('headersService'); //end httpProvider
     $locationProvider.html5Mode(true);
     $urlRouterProvider.otherwise('/');
     $stateProvider
@@ -41,21 +30,97 @@ angular.module('app', ['ui.router', 'ngCookies', 'ngMaterial', 'ngStorage'])
         templateUrl: './templates/welcome.html',
         controller: 'welcomeController as welcome',
         authenticate: true
-      })
-      .state('changePW', {
-        url: '/changePW',
-        templateUrl: './templates/changePW.html',
-        controller: 'changePWController as changePW',
-        authenticate: true
       });
+      // .state('changePW', {
+      //   url: '/changePW',
+      //   templateUrl: './templates/changePW.html',
+      //   controller: 'changePWController as changePW',
+      //   authenticate: true
+      // });
   });
+
+angular.module('app').factory('authService', function ($http, $localStorage, userInfo){
+   var authService = this;
+   //creds passed from login.subit's call to this function.
+   authService.login = function(creds, cb){
+     $http.post('/users/login', JSON.stringify(creds))
+      .then(function(res) {
+        var auth = res.headers('Auth');
+        // console.log("res.headers('Auth'):", auth, {"res.data": res.data});
+        if (auth) {
+          // userInfo.setUserData(res.data);
+          //stores information in localStorage on the currentUser.  Populate Welcome from localStorage.
+          $localStorage.currentUser = res.data;
+          $localStorage.currentUser.token = auth;
+          console.log({"localStorage.currentUser": $localStorage.currentUser});
+          cb(true);
+        } else {
+          cb(false);
+        }
+      }).catch(function(e){
+        console.log(e);
+      })
+   };
+   authService.Logout = function() {
+          // remove user from local storage and clear http auth header
+          delete $localStorage.currentUser;
+          $http.defaults.headers.common.Auth = '';
+        };
+   return authService;
+});
+//
+
+angular.module('app').factory('headersService', function($location, $localStorage, $injector){
+  var headersSvc = {};
+    headersSvc.request = function(config){
+      config.headers = config.headers || {};
+      if($localStorage.currentUser){
+        if($localStorage.currentUser.token){
+          var http = $injector.get('$http');
+          http.defaults.headers.common.Auth = $localStorage.currentUser.token;
+       } else {
+         $injector.get('$state').go('home.login');
+       }
+      }
+      return config;
+    };
+    headersSvc.responseError = function(response){
+      if(response.status === 401 || response.status === 403){
+        return $location.state('home.login');
+      }
+    }; //end responseError
+  return headersSvc;
+}); //end
+
+angular.module('app').factory('userInfo', userInfo);
+
+function userInfo(){
+  var user ={};
+  user.userInstance;
+  user.setUserData = function(userObj){
+    if(userObj){
+      user.userInstance = userObj;
+    } else {
+      return;
+    }
+  }
+  user.getUserData = function(){
+    if(typeof user.userInstance == 'object'){
+      return user.userInstance;
+    } else{
+      return 'Error: The user instance is not valid.'
+    }
+  }
+  return user;
+
+}
 
 angular.module('app').controller('homeController', function(){
   var home = this;
   home.message = "This is a simple demonstration of the authorization process in Node.  This authorization was done by using password encryption and utilizing JSON web tokens.  You will be able to sign up, log in, see your information, and log out."
 });
 
-angular.module('app').controller('loginController', function($http, userInfo, $state, authenticationService){
+angular.module('app').controller('loginController', function($http, userInfo, $state, authService){
   var login = this;
   var type;
   if(userInfo.userInstance){
@@ -84,17 +149,19 @@ angular.module('app').controller('loginController', function($http, userInfo, $s
         creds.username = login.username;
       }
      creds.password = login.password;
-    authenticationService.login(creds, function(result){
-      if(result === 'true'){
+     authService.login(creds, function(result){
+      console.log(result);
+      if(result === true){
         $state.go('welcomeUser');
       } else {
+        console.log(result);
         login.error = "Invalid credentials.  Please try again."
       }
     })
   };
 });
 
-angular.module('app').controller('signUpController', function($http, userInfo, $state){
+angular.module('app').controller('signUpController', function($http, userInfo, $state, authService){
   var signup = this;
   signup.error = "";
 
@@ -140,9 +207,8 @@ angular.module('app').controller('signUpController', function($http, userInfo, $
     };
     if(fields && pw){
       $http.post('/users', JSON.stringify(signup.user)).then(function(user){
-        userInfo.setUserData(user.data);
-        authenticationService.login(user.data, function(result){
-          if(result === 'true'){
+        authService.login(user.data, function(result){
+          if(result === true){
             $state.go('welcomeUser');
           } else {
             throw new Error('Invalid Information.');
@@ -165,72 +231,19 @@ angular.module('app').controller('signUpController', function($http, userInfo, $
   }
 });
 
-app.controller('welcomeController', function(userInfo, $state, $http, $localStorage, authenticationService){
+angular.module('app').controller('welcomeController', function(userInfo, $state, $http, $localStorage, authService){
   var welcome = this;
-  welcome.firstName = userInfo.userInstance.firstName;
-  welcome.lastName = userInfo.userInstance.lastName;
-  welcome.username = userInfo.userInstance.username;
-  welcome.email = userInfo.userInstance.email;
+  welcome.firstName = $localStorage.currentUser.firstName;
+  welcome.lastName = $localStorage.currentUser.lastName;
+  welcome.username = $localStorage.currentUser.username;
+  welcome.email = $localStorage.currentUser.email;
   welcome.logout = function(){
-    $http({
- method: 'DELETE',
- url: '/users/login'
-})
-.then(function(status){
+    $http.delete('/users/login').then(function(status){
       console.log('status: ', status);
-      authenticationService.Logout();
+      authService.Logout();
+      $state.go('home.login');
     });
     //add only if successfully logged out
     // $state.go('home.login');
   }
 });
-
-angular.module('app').factory('authenticationService', authService);
-
-function authService ($http, $localStorage){
-   var authService = {};
-   authService.login = function(creds, cb){
-     $http.post('/users/login', JSON.stringify(creds))
-      .then(function(res){
-        if(res.token){
-          $localStorage.currentUser = creds;
-          $localStorage.currentUser.token = res.token;
-          $http.defaults.headers.common.Auth = res.token;
-          cb(true);
-        } else {
-          cb(false);
-        }
-      }).catch(e){
-        console.log(e);
-      }
-   };
-   authService.Logout = function() {
-          // remove user from local storage and clear http auth header
-          delete $localStorage.currentUser;
-          $http.defaults.headers.common.Auth = '';
-        };
-   return authService;
-}
-
-angular.module('app').factory('userInfo', userInfo);
-
-function userInfo(){
-  var user ={};
-  user.userInstance;
-  user.setUserData = function(userObj){
-    if(userObj){
-      user.userInstance = userObj;
-    } else {
-      return;
-    }
-  }
-  user.getUserData = function(){
-    if(typeof user.userInstance == 'object'){
-      return user.userInstance;
-    } else{
-      return 'Error: The user instance is not valid.'
-    }
-  }
-  return user;
-
-}

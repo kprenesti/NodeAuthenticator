@@ -1,21 +1,24 @@
-angular.module('app').factory('authenticationService', authService);
-
-function authService ($http, $localStorage){
-   var authService = {};
+angular.module('app').factory('authService', function ($http, $localStorage, userInfo){
+   var authService = this;
+   //creds passed from login.subit's call to this function.
    authService.login = function(creds, cb){
      $http.post('/users/login', JSON.stringify(creds))
-      .then(function(res){
-        if(res.token){
-          $localStorage.currentUser = creds;
-          $localStorage.currentUser.token = res.token;
-          $http.defaults.headers.common.Auth = res.token;
+      .then(function(res) {
+        var auth = res.headers('Auth');
+        // console.log("res.headers('Auth'):", auth, {"res.data": res.data});
+        if (auth) {
+          // userInfo.setUserData(res.data);
+          //stores information in localStorage on the currentUser.  Populate Welcome from localStorage.
+          $localStorage.currentUser = res.data;
+          $localStorage.currentUser.token = auth;
+          console.log({"localStorage.currentUser": $localStorage.currentUser});
           cb(true);
         } else {
           cb(false);
         }
-      }).catch(e){
+      }).catch(function(e){
         console.log(e);
-      }
+      })
    };
    authService.Logout = function() {
           // remove user from local storage and clear http auth header
@@ -23,4 +26,5 @@ function authService ($http, $localStorage){
           $http.defaults.headers.common.Auth = '';
         };
    return authService;
-}
+});
+//

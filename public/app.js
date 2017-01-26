@@ -1,22 +1,11 @@
-angular.module('app', ['ui.router', 'ngCookies', 'ngMaterial', 'ngStorage'])
-  .config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $localStorage){
-    $httpProvider.interceptors.push(function($location, $localStorage, $state){
-      return {
-        'request': function(config){
-          config.headers = config.headers || {};
-          if($localStorage.token){
-            config.headers.Authorization = 'Bearer' + $localStorage.token;
-          }
-          return config;
-        },
-        'responseError': function(response){
-          if(response.status === 401 || response.status === 403){
-            $state.go('home.login');
-          }
-
-        }
-      }
-    }); //end httpProvider
+angular.module('app', ['ui.router', 'ngMaterial', 'ngStorage'])
+  // .run(function($rootScope, $state, $localStorageProvider){
+  //   $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams){
+  //
+  //   }
+  // })
+  .config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $localStorageProvider){
+    $httpProvider.interceptors.push('headersService'); //end httpProvider
     $locationProvider.html5Mode(true);
     $urlRouterProvider.otherwise('/');
     $stateProvider
@@ -41,11 +30,11 @@ angular.module('app', ['ui.router', 'ngCookies', 'ngMaterial', 'ngStorage'])
         templateUrl: './templates/welcome.html',
         controller: 'welcomeController as welcome',
         authenticate: true
-      })
-      .state('changePW', {
-        url: '/changePW',
-        templateUrl: './templates/changePW.html',
-        controller: 'changePWController as changePW',
-        authenticate: true
       });
+      // .state('changePW', {
+      //   url: '/changePW',
+      //   templateUrl: './templates/changePW.html',
+      //   controller: 'changePWController as changePW',
+      //   authenticate: true
+      // });
   });

@@ -1,4 +1,4 @@
-angular.module('app').controller('signUpController', function($http, userInfo, $state){
+angular.module('app').controller('signUpController', function($http, userInfo, $state, authService){
   var signup = this;
   signup.error = "";
 
@@ -44,9 +44,8 @@ angular.module('app').controller('signUpController', function($http, userInfo, $
     };
     if(fields && pw){
       $http.post('/users', JSON.stringify(signup.user)).then(function(user){
-        userInfo.setUserData(user.data);
-        authenticationService.login(user.data, function(result){
-          if(result === 'true'){
+        authService.login(user.data, function(result){
+          if(result === true){
             $state.go('welcomeUser');
           } else {
             throw new Error('Invalid Information.');

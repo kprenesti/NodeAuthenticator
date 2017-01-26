@@ -1,4 +1,4 @@
-angular.module('app').controller('loginController', function($http, userInfo, $state, authenticationService){
+angular.module('app').controller('loginController', function($http, userInfo, $state, authService){
   var login = this;
   var type;
   if(userInfo.userInstance){
@@ -27,10 +27,12 @@ angular.module('app').controller('loginController', function($http, userInfo, $s
         creds.username = login.username;
       }
      creds.password = login.password;
-    authenticationService.login(creds, function(result){
-      if(result === 'true'){
+     authService.login(creds, function(result){
+      console.log(result);
+      if(result === true){
         $state.go('welcomeUser');
       } else {
+        console.log(result);
         login.error = "Invalid credentials.  Please try again."
       }
     })
