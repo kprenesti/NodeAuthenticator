@@ -7,8 +7,9 @@ angular.module('app').controller('welcomeController', function(userInfo, $state,
   welcome.logout = function(){
     $http.delete('/users/login').then(function(status){
       console.log('status: ', status);
+      delete status.config.headers.Auth;
       authService.Logout();
-      $state.go('home.login');
+      $state.go('home');
     });
     //add only if successfully logged out
     // $state.go('home.login');

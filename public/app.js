@@ -1,9 +1,11 @@
 angular.module('app', ['ui.router', 'ngMaterial', 'ngStorage'])
-  // .run(function($rootScope, $state, $localStorageProvider){
-  //   $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams){
-  //
-  //   }
-  // })
+  .run(function($rootScope, $injector){
+    $rootScope.$on("$routeChangeError", function(event, current, previous, eventObj){
+      if(eventObj.authenticated === false){
+        $injector.get('$state').go('home');
+      }
+    })
+  })
   .config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $localStorageProvider){
     $httpProvider.interceptors.push('headersService'); //end httpProvider
     $locationProvider.html5Mode(true);
@@ -29,7 +31,18 @@ angular.module('app', ['ui.router', 'ngMaterial', 'ngStorage'])
         url: '/welcome',
         templateUrl: './templates/welcome.html',
         controller: 'welcomeController as welcome',
-        authenticate: true
+        authenticate: true,
+        resolve: {
+          auth: function($q, authService) {
+            var userInfo = authService.checkForToken();
+
+            if (userInfo) {
+              return $q.resolve();
+            } else {
+              return $q.reject({ authenticated: false });
+            }
+          }
+        }
       });
       // .state('changePW', {
       //   url: '/changePW',
