@@ -2,9 +2,12 @@ angular.module('app', ['ui.router', 'ngMaterial', 'ngStorage'])
   .run(function($rootScope, $state, $injector){
     $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams){
       console.log({"toState": toState, "toParams": toParams, "fromState": fromState, "fromParams": fromParams});
-      if($injector.get('$localStorage').currentUser){
+      var currentUser = $injector.get('$localStorage').currentUser
+      if(currentUser && toState.name != 'welcomeUser'){
         event.preventDefault();
         $state.go('welcomeUser');
+      } else if(!currentUser && toState.name == 'welcomeUser'){
+        $state.go('home.login');
       }
       return;
     }); //end rootScope.on
