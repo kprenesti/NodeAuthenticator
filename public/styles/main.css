@@ -2,20 +2,71 @@
   margin: 0;
   padding: 0;
   font-family: 'Hind', sans-serif;
-}
+  box-sizing: border-box; }
 
-.wrapper {
-  width: 60vw;
-  margin: auto;
-  padding: 40px;
-  min-height: 100vh;
-  text-align: center;
-}
+body {
+  background: rgba(62, 134, 61, 0.77);
+  background: -moz-linear-gradient(top, rgba(62, 134, 61, 0.77) 0%, rgba(62, 134, 61, 0.77) 0%, #1f3b08 100%);
+  background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(62, 134, 61, 0.77)), color-stop(0%, rgba(62, 134, 61, 0.77)), color-stop(100%, #1f3b08));
+  background: -webkit-linear-gradient(top, rgba(62, 134, 61, 0.77) 0%, rgba(62, 134, 61, 0.77) 0%, #1f3b08 100%);
+  background: -o-linear-gradient(top, rgba(62, 134, 61, 0.77) 0%, rgba(62, 134, 61, 0.77) 0%, #1f3b08 100%);
+  background: -ms-linear-gradient(top, rgba(62, 134, 61, 0.77) 0%, rgba(62, 134, 61, 0.77) 0%, #1f3b08 100%);
+  background: linear-gradient(to bottom, rgba(62, 134, 61, 0.77) 0%, rgba(62, 134, 61, 0.77) 0%, #1f3b08 100%); }
+
+.home__wrapper {
+  width: 80vw;
+  height: 70vh;
+  margin: 10vh auto 1.75rem auto;
+  position: relative;
+  box-shadow: 1px 1px 28px -3px rgba(0, 0, 0, 0.7); }
+
+.home__welcome-left {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 40%;
+  padding: 2.86rem;
+  background-color: black;
+  color: white;
+  height: 100%; }
+
+.home__logo {
+  width: 10em;
+  margin: 0 auto;
+  text-align: center; }
 
 .home__welcomeMsg {
-  margin-bottom: 20px;
-}
+  padding-top: 2.5rem;
+  margin-bottom: 0; }
 
-.home__description {
+.home__subtitle {
+  font-size: 1rem;
+  font-weight: 200;
+  padding-top: 0;
+  margin-top: 0;
+  position: relative;
+  top: -10px; }
+
+.home__bullets {
   font-size: 1.2rem;
-}
+  margin-top: 2rem;
+  list-style-type: none; }
+  .home__bullets > li > i {
+    display: inline-block;
+    padding-right: 1.5rem; }
+
+.home__panel {
+  position: absolute;
+  width: 60%;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: white;
+  height: 100%;
+  padding: 2.86rem; }
+
+.home__disclaimers {
+  text-align: center; }

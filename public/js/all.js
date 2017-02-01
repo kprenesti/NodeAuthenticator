@@ -1,13 +1,4 @@
-angular.module('app', ['ui.router', 'ngMaterial', 'ngStorage'])
-<<<<<<< HEAD
-  .run(function($rootScope, $injector){
-    $rootScope.$on("$routeChangeError", function(event, current, previous, eventObj){
-      if(eventObj.authenticated === false){
-        $injector.get('$state').go('home');
-      }
-    })
-  })
-=======
+angular.module('app', ['ui.router', 'ngStorage'])
   .run(function($rootScope, $state, $injector){
     $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams){
       console.log({"toState": toState, "toParams": toParams, "fromState": fromState, "fromParams": fromParams});
@@ -21,7 +12,6 @@ angular.module('app', ['ui.router', 'ngMaterial', 'ngStorage'])
       return;
     }); //end rootScope.on
   })//end .run
->>>>>>> 9b4056b147001069f9d98c70afdb273708423c7b
   .config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $localStorageProvider){
     $httpProvider.interceptors.push('headersService'); //end httpProvider
     $locationProvider.html5Mode(true);

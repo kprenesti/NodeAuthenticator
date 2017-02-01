@@ -1,4 +1,4 @@
-angular.module('app', ['ui.router', 'ngMaterial', 'ngStorage'])
+angular.module('app', ['ui.router', 'ngStorage'])
   .run(function($rootScope, $state, $injector){
     $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams){
       console.log({"toState": toState, "toParams": toParams, "fromState": fromState, "fromParams": fromParams});
