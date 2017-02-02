@@ -216,7 +216,11 @@ angular.module('app').controller('signUpController', function($http, userInfo, $
     };
     if(fields && pw){
       $http.post('/users', JSON.stringify(signup.user)).then(function(user){
-        authService.login(user.data, function(result){
+        var creds = {
+          username: user.data.username,
+          password: signup.user.password
+        }
+        authService.login(creds, function(result){
           if(result === true){
             $state.go('welcomeUser');
           } else {
