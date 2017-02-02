@@ -1,4 +1,13 @@
 angular.module('app', ['ui.router', 'ngMaterial', 'ngStorage'])
+<<<<<<< HEAD
+  .run(function($rootScope, $injector){
+    $rootScope.$on("$routeChangeError", function(event, current, previous, eventObj){
+      if(eventObj.authenticated === false){
+        $injector.get('$state').go('home');
+      }
+    })
+  })
+=======
   .run(function($rootScope, $state, $injector){
     $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams){
       console.log({"toState": toState, "toParams": toParams, "fromState": fromState, "fromParams": fromParams});
@@ -12,6 +21,7 @@ angular.module('app', ['ui.router', 'ngMaterial', 'ngStorage'])
       return;
     }); //end rootScope.on
   })//end .run
+>>>>>>> 9b4056b147001069f9d98c70afdb273708423c7b
   .config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $localStorageProvider){
     $httpProvider.interceptors.push('headersService'); //end httpProvider
     $locationProvider.html5Mode(true);
@@ -38,7 +48,18 @@ angular.module('app', ['ui.router', 'ngMaterial', 'ngStorage'])
       .state('welcomeUser', {
         templateUrl: './templates/welcome.html',
         controller: 'welcomeController as welcome',
-        authenticate: true
+        authenticate: true,
+        resolve: {
+          auth: function($q, authService) {
+            var userInfo = authService.checkForToken();
+
+            if (userInfo) {
+              return $q.resolve();
+            } else {
+              return $q.reject({ authenticated: false });
+            }
+          }
+        }
       });
       // .state('changePW', {
       //   url: '/changePW',
@@ -51,6 +72,15 @@ angular.module('app', ['ui.router', 'ngMaterial', 'ngStorage'])
 angular.module('app').factory('authService', function ($http, $localStorage, userInfo){
    var authService = this;
    //creds passed from login.subit's call to this function.
+   authService.checkForToken = function(){
+     if($localStorage.currentUser){
+       if($localStorage.currentUser.token){
+         return true;
+       } else {
+         return false;
+       }
+     }
+   };
    authService.login = function(creds, cb){
      $http.post('/users/login', JSON.stringify(creds))
       .then(function(res) {
@@ -253,8 +283,9 @@ angular.module('app').controller('welcomeController', function(userInfo, $state,
   welcome.logout = function(){
     $http.delete('/users/login').then(function(status){
       console.log('status: ', status);
+      delete status.config.headers.Auth;
       authService.Logout();
-      $state.go('home.login');
+      $state.go('home');
     });
     //add only if successfully logged out
     // $state.go('home.login');

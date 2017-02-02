@@ -1,6 +1,15 @@
 angular.module('app').factory('authService', function ($http, $localStorage, userInfo){
    var authService = this;
    //creds passed from login.subit's call to this function.
+   authService.checkForToken = function(){
+     if($localStorage.currentUser){
+       if($localStorage.currentUser.token){
+         return true;
+       } else {
+         return false;
+       }
+     }
+   };
    authService.login = function(creds, cb){
      $http.post('/users/login', JSON.stringify(creds))
       .then(function(res) {

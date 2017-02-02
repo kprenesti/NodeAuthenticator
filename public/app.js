@@ -38,7 +38,18 @@ angular.module('app', ['ui.router', 'ngMaterial', 'ngStorage'])
       .state('welcomeUser', {
         templateUrl: './templates/welcome.html',
         controller: 'welcomeController as welcome',
-        authenticate: true
+        authenticate: true,
+        resolve: {
+          auth: function($q, authService) {
+            var userInfo = authService.checkForToken();
+
+            if (userInfo) {
+              return $q.resolve();
+            } else {
+              return $q.reject({ authenticated: false });
+            }
+          }
+        }
       });
       // .state('changePW', {
       //   url: '/changePW',
