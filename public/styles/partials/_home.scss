@@ -1,13 +1,6 @@
 .home{
-  &__wrapper {
-    width: 80vw;
-    height: 70vh;
-    margin: 10vh auto 1.75rem auto;
-    position: relative;
-    box-shadow: 1px 1px 28px -3px rgba(0,0,0,0.7);
-  }
  &__welcome-left {
-  //  float: left;
+   display: none;
   position: absolute;
   display: flex;
   flex-direction: column;
@@ -63,5 +56,14 @@
  }
  &__disclaimers {
    text-align: center;
+   padding-top: .5rem;
+   & > a {
+     color: lightgrey;
+     text-decoration: none;
+   }
  }
+}
+
+@media (min-width: 680px){
+  .home__welcome-left {display: block;}
 }

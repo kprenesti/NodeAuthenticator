@@ -39,17 +39,23 @@ angular.module('app', ['ui.router', 'ngStorage'])
         templateUrl: './templates/welcome.html',
         controller: 'welcomeController as welcome',
         authenticate: true,
-        resolve: {
-          auth: function($q, authService) {
-            var userInfo = authService.checkForToken();
-
-            if (userInfo) {
-              return $q.resolve();
-            } else {
-              return $q.reject({ authenticated: false });
-            }
-          }
-        }
+        // resolve: {
+        //   auth: function($q, authService) {
+        //     var userInfo = authService.checkForToken();
+        //
+        //     if (userInfo) {
+        //       return $q.resolve();
+        //     } else {
+        //       return $q.reject({ authenticated: false });
+        //     }
+        //   }
+        // }
+      })
+      .state('about', {
+        url: '/about',
+        templateUrl: './templates/about.html',
+        controller: 'aboutController as aboutCtrl',
+        authenticate: false
       });
       // .state('changePW', {
       //   url: '/changePW',
@@ -236,13 +242,14 @@ angular.module('app').controller('signUpController', function($http, userInfo, $
     };
     if(fields && pw){
       $http.post('/users', JSON.stringify(signup.user)).then(function(user){
-        authService.login(user.data, function(result){
-          if(result === true){
-            $state.go('welcomeUser');
-          } else {
-            throw new Error('Invalid Information.');
-          }
-        })
+        console.log(user);
+        // authService.login(user.data, function(result){
+        //   if(result === true){
+        //     $state.go('welcomeUser');
+        //   } else {
+        //     throw new Error('Invalid Information.');
+        //   }
+        // })
         // $state.go('home.login');
       }).catch(function(e){
         console.log(e);
