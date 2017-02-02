@@ -44,15 +44,18 @@ angular.module('app').controller('signUpController', function($http, userInfo, $
     };
     if(fields && pw){
       $http.post('/users', JSON.stringify(signup.user)).then(function(user){
-        console.log(user);
-        // authService.login(user.data, function(result){
-        //   if(result === true){
-        //     $state.go('welcomeUser');
-        //   } else {
-        //     throw new Error('Invalid Information.');
-        //   }
-        // })
-        // $state.go('home.login');
+        var creds = {
+          username: user.data.username,
+          password: signup.user.password
+        }
+        authService.login(creds, function(result){
+          if(result === true){
+            $state.go('welcomeUser');
+          } else {
+            throw new Error('Invalid Information.');
+            $state.go('home.login');
+          }
+        })
       }).catch(function(e){
         console.log(e);
         signup.error = "Something went wrong! " + e.statusText;
