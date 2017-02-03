@@ -9,7 +9,7 @@ angular.module('app').controller('welcomeController', function(userInfo, $state,
       console.log('status: ', status);
       delete status.config.headers.Auth;
       authService.Logout();
-      $state.go('home');
+      $state.go('home.login');
     });
     //add only if successfully logged out
     // $state.go('home.login');

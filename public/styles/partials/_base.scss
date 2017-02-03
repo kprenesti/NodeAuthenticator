@@ -10,22 +10,31 @@ body {
   padding-top: 10vh;
   padding-bottom: 10vh;
   background: rgba(62,134,61,0.77);
-background: -moz-linear-gradient(top, rgba(62,134,61,0.77) 0%, rgba(62,134,61,0.77) 0%, rgba(31,59,8,1) 100%);
-background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(62,134,61,0.77)), color-stop(0%, rgba(62,134,61,0.77)), color-stop(100%, rgba(31,59,8,1)));
-background: -webkit-linear-gradient(top, rgba(62,134,61,0.77) 0%, rgba(62,134,61,0.77) 0%, rgba(31,59,8,1) 100%);
-background: -o-linear-gradient(top, rgba(62,134,61,0.77) 0%, rgba(62,134,61,0.77) 0%, rgba(31,59,8,1) 100%);
-background: -ms-linear-gradient(top, rgba(62,134,61,0.77) 0%, rgba(62,134,61,0.77) 0%, rgba(31,59,8,1) 100%);
-background: linear-gradient(to bottom, rgba(62,134,61,0.77) 0%, rgba(62,134,61,0.77) 0%, rgba(31,59,8,1) 100%);
+  background: -webkit-linear-gradient(rgba(62,134,61,0.77) 0%, rgba(62,134,61,0.77) 0%, rgba(31,59,8,1) 100%);
+  background: -o-linear-gradient(rgba(62,134,61,0.77) 0%, rgba(62,134,61,0.77) 0%, rgba(31,59,8,1) 100%);
+  background: linear-gradient(rgba(62,134,61,0.77) 0%, rgba(62,134,61,0.77) 0%, rgba(31,59,8,1) 100%);
 }
 
 .wrapper {
-  width: 80vw;
+  width: 70vw;
   height: 70vh;
   margin: auto;
   position: relative;
   box-shadow: 1px 1px 28px -3px rgba(0,0,0,0.7);
 }
 
+.active {
+  color: $darkGreen;
+  text-shadow: 1px 1px 5px lightgrey;
+}
+.inactive {
+  color: grey;
+  font-weight: 200;
+}
+.inactive > a {
+  text-decoration: none;
+  color: inherit;
+}
 // .wrapper {
 //   width: 60vw;
 //   margin: auto;

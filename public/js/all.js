@@ -251,9 +251,9 @@ angular.module('app').controller('signUpController', function($http, userInfo, $
             $state.go('welcomeUser');
           } else {
             throw new Error('Invalid Information.');
+            $state.go('home.login');
           }
         })
-        // $state.go('home.login');
       }).catch(function(e){
         console.log(e);
         signup.error = "Something went wrong! " + e.statusText;
@@ -281,7 +281,7 @@ angular.module('app').controller('welcomeController', function(userInfo, $state,
       console.log('status: ', status);
       delete status.config.headers.Auth;
       authService.Logout();
-      $state.go('home');
+      $state.go('home.login');
     });
     //add only if successfully logged out
     // $state.go('home.login');

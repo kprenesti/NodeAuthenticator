@@ -1,10 +1,10 @@
 <div class="activeState">
-  <h1><span class="inactive">Login</span>  /  <span class="active"><a ui-sref="home.signUp" class="activeState__link">Sign Up</a></span></h1>
+  <h1><span class="active">Login</span><span class="inactive">  /  <a ui-sref="home.signUp" class="activeState__link">Sign Up</a></span></h1>
 </div>
 
 <div class="login">
   <h2 class="error" ng-show="login.error">Ooops. {{login.error}}</h2>
-  <form class="form">
+  <form class="form form--login">
     <div class="form__field form__field--creds">
       <label class="form__label" for="email">Username or Email: </label>
       <input class="form__input" type="text" name="email" placeholder="Username or Email" ng-model="login.creds"/>
