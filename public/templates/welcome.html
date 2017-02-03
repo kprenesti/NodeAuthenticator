@@ -1,13 +1,14 @@
-<div class="welcomeUser wrapper">
-  <h1>Welcome, {{welcome.firstName}}!</h1>
-  <p>
-    You made it! You're authenticated and we know who you are!
-  </p>
+<div class="home__welcome-left home__welcome-left--centered">
+  <h1 class="huge">Hi!</h1>
+</div>
+<div class="welcome">
+  <h1 class="active welcome__greeting">Welcome, {{welcome.firstName}}!</h1>
+  <p class="welcome__woohoo">You made it! You're authenticated and we know who you are!</p>
   <div class="welcome__details">
-    <h2>Your Profile</h2>
-    <h3 class="welcome__detail"><strong>Username:</strong> {{welcome.username}}</h3>
-    <h3><strong>Name:</strong> {{welcome.firstName + " " + welcome.lastName}}</h3>
-    <h3><strong>E-mail:</strong> {{welcome.email}}</h3>
+    <h2 class="welcome__profile">Your Profile</h2>
+    <h3 class="welcome__detail"><span class="welcome__label">Username:</span> {{welcome.username}}</h3>
+    <h3><span class="welcome__label">Name:</span> {{welcome.firstName + " " + welcome.lastName}}</h3>
+    <h3><span class="welcome__label">E-mail:</span> {{welcome.email}}</h3>
   </div>
-  <button ng-click="welcome.logout()" type="button">Logout</button>
+  <button class="form__submit" ng-click="welcome.logout()" type="button">Logout</button>
 </div>

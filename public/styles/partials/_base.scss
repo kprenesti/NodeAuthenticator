@@ -16,13 +16,18 @@ body {
 }
 
 .wrapper {
-  width: 70vw;
-  height: 70vh;
+  width: 90vw;
+  min-height: 70vh;
   margin: auto;
   position: relative;
   box-shadow: 1px 1px 28px -3px rgba(0,0,0,0.7);
 }
-
+@media (min-width: 860px){
+  .wrapper {
+    width: 70vw;
+    height: 70vh;
+  }
+}
 .active {
   color: $darkGreen;
   text-shadow: 1px 1px 5px lightgrey;
@@ -35,9 +40,6 @@ body {
   text-decoration: none;
   color: inherit;
 }
-// .wrapper {
-//   width: 60vw;
-//   margin: auto;
-//   padding: 40px;
-//   min-height: 100vh;
-// }
+.error {
+  color: red;
+}

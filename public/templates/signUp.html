@@ -6,30 +6,30 @@
   <div class="error" ng-if="signup.error">
     <h2>Ooops! {{signup.error}}</h2>
   </div>
-  <form class="form">
+  <form class="form form--signup">
     <div class="form__field form__field--username">
       <label class="form__label required" for="username">Username: </label>
-      <input class="form__input" type="text" name="username" placeholder="Ex: SneakySnitch1" ng-model="signup.username"/>
+      <input class="form__input" type="text" name="username" ng-model="signup.username"/>
     </div>
     <div class="form__field form__field--firstName">
       <label class="form__label requred" for="firstName">First Name: </label>
-      <input class="form__input" type="text" name="firstName" ng-model="signup.firstName" placeholder="Ex: Harry" />
+      <input class="form__input form__input--halfWidth" type="text" name="firstName" ng-model="signup.firstName" />
     </div>
     <div class="form__field form__field--lastName">
       <label class="form__label required" for="lastName">Last Name: </label>
-      <input class="form__input" type="text" name="firstName" ng-model="signup.lastName" placeholder="Ex: Potter">
+      <input class="form__input form__input--halfWidth" type="text" name="firstName" ng-model="signup.lastName" />
     </div>
     <div class="form__field form__field--email">
       <label class="form__label required" for="email">Email: </label>
-      <input class="form__input" type="email" name="email" ng-model="signup.email" placeholder="Ex: basiliskSlayer@hogwarts.edu" />
+      <input class="form__input" type="email" name="email" ng-model="signup.email" />
     </div>
-    <div class="form__field form__field--password">
+    <div class="form__field form__field--password form__field--halfWidth">
       <label class="form__label required" for="password1">Password: </label>
-      <input class="form__input" type="password" name="password1" ng-model="signup.password1" placeholder="Create a password">
+      <input class="form__input form__input--halfWidth" type="password" name="password1" ng-model="signup.password1" />
     </div>
-    <div class="form__field form__field--password">
+    <div class="form__field form__field--password form__field--halfWidth">
       <label class="form__label required" for="password2">Re-enter Password: </label>
-      <input class="form__input" type="password" name="password2" ng-model="signup.password2" placeholder="Re-enter your password">
+      <input class="form__input form__input--halfWidth" type="password" name="password2" ng-model="signup.password2" />
     </div>
     <button class="form__submit" type="subit" ng-click="signup.checkFields()">Submit</button>
   </form>

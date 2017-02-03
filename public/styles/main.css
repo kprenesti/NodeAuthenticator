@@ -13,11 +13,16 @@ body {
   background: linear-gradient(rgba(62, 134, 61, 0.77) 0%, rgba(62, 134, 61, 0.77) 0%, #1f3b08 100%); }
 
 .wrapper {
-  width: 70vw;
-  height: 70vh;
+  width: 90vw;
+  min-height: 70vh;
   margin: auto;
   position: relative;
   box-shadow: 1px 1px 28px -3px rgba(0, 0, 0, 0.7); }
+
+@media (min-width: 860px) {
+  .wrapper {
+    width: 70vw;
+    height: 70vh; } }
 
 .active {
   color: #35863D;
@@ -31,9 +36,18 @@ body {
   text-decoration: none;
   color: inherit; }
 
+.error {
+  color: red; }
+
+@media (min-width: 860px) {
+  .home__welcome-left {
+    display: block;
+    position: absolute; }
+  .home__panel, .welcome {
+    width: 60% !important; } }
+
 .home__welcome-left {
   display: none;
-  position: absolute;
   display: flex;
   flex-direction: column;
   top: 0;
@@ -44,6 +58,14 @@ body {
   background-color: black;
   color: white;
   height: 100%; }
+  .home__welcome-left--centered {
+    justify-content: center; }
+  .home__welcome-left > .huge {
+    color: white;
+    font-size: 10rem;
+    align-self: center;
+    text-align: center;
+    transform: translateY(50%); }
 
 .home__logo {
   width: 10em;
@@ -69,9 +91,9 @@ body {
     display: inline-block;
     padding-right: 1.5rem; }
 
-.home__panel {
+.home__panel, .welcome {
   position: absolute;
-  width: 60%;
+  width: 100%;
   right: 0;
   top: 0;
   bottom: 0;
@@ -86,9 +108,66 @@ body {
     color: lightgrey;
     text-decoration: none; }
 
-@media (min-width: 680px) {
-  .home__welcome-left {
-    display: block; } }
-
 .form {
-  padding-top: 50px; }
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding-top: 50px;
+  justify-content: space-between; }
+  .form--signup {
+    padding-top: 0px; }
+  .form__field {
+    width: 100%; }
+  .form__field--halfWidth {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    width: 47%;
+    float: left; }
+  .form__input {
+    border-radius: 5rem;
+    width: 100%;
+    padding: .8rem;
+    border: 1px solid black; }
+    .form__input:focus {
+      border: 4px solid #35863D;
+      outline: none; }
+  .form__label {
+    color: #35863D;
+    font-size: 1rem;
+    font-weight: 200; }
+  .form__submit {
+    background-color: #35863D;
+    color: white;
+    padding: .8rem;
+    font-size: 1.2rem;
+    font-weight: 200;
+    width: 100%;
+    border-radius: 5rem;
+    margin-top: 3rem;
+    border: none; }
+    .form__submit:focus {
+      outline: none; }
+
+.welcome {
+  text-align: center; }
+
+.welcome__woohoo {
+  display: block;
+  position: relative;
+  top: -.9rem; }
+
+.welcome__profile {
+  text-align: center;
+  color: #35863D;
+  padding-top: 2rem;
+  padding-bottom: 2rem; }
+
+.welcome__label {
+  color: #35863D;
+  font-weight: bold; }
+
+.welcome__details {
+  text-align: center; }
+  .welcome__details h3 {
+    font-weight: 200; }
