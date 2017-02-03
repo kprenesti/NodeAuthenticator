@@ -1,0 +1,11 @@
+.about{
+  &__submit{
+    display: block;
+    text-decoration: none;
+    text-align: center;
+    @extend .form__submit;
+  }
+  &__logo {
+    @extend .home__logo;
+  }
+}

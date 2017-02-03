@@ -14,7 +14,10 @@ angular.module('app', ['ui.router', 'ngStorage'])
   })//end .run
   .config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $localStorageProvider){
     $httpProvider.interceptors.push('headersService'); //end httpProvider
-    $locationProvider.html5Mode(true);
+    // $locationProvider.html5Mode({
+    //   enabled: true,
+    //   requireBase: false
+    // });
     $urlRouterProvider.otherwise('/');
     $stateProvider
       .state('home', {
@@ -63,4 +66,5 @@ angular.module('app', ['ui.router', 'ngStorage'])
       //   controller: 'changePWController as changePW',
       //   authenticate: true
       // });
+      $locationProvider.html5Mode(true).hashPrefix('!');
   });
