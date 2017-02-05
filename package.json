@@ -4,7 +4,7 @@
   "description": "This is a practice full-stack project that simply allows a user to sign up, login, see their user info, and logout.  This version does not use Passport.",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server.js git & gulp watch",
+    "start": "nodemon server.js git",
     "test": "mocha **/*.test.js",
     "test-watch": "nodemon --exec \"npm test\""
   },
