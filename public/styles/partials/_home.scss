@@ -1,4 +1,7 @@
 @media (min-width: 860px){
+  body {
+    padding-top: 20px;
+  }
   .home__welcome-left{
     display: block !important;
     // min-height: 70vh;
@@ -35,7 +38,7 @@
     font-size: 10rem;
     align-self: center;
     text-align: center;
-    transform: translateY(50%);
+    transform: translateY(25%);
   }
  }
  &__logo {
@@ -85,6 +88,7 @@
  &__disclaimers {
    text-align: center;
    padding-top: .5rem;
+   color: lightgrey;
    & > a {
      color: lightgrey;
      text-decoration: none;

@@ -42,6 +42,8 @@ body {
   color: red; }
 
 @media (min-width: 860px) {
+  body {
+    padding-top: 20px; }
   .home__welcome-left {
     display: block !important;
     position: absolute;
@@ -69,7 +71,7 @@ body {
     font-size: 10rem;
     align-self: center;
     text-align: center;
-    transform: translateY(50%); }
+    transform: translateY(25%); }
 
 .home__logo, .about__logo {
   width: 10em;
@@ -108,10 +110,25 @@ body {
 
 .home__disclaimers {
   text-align: center;
-  padding-top: .5rem; }
+  padding-top: .5rem;
+  color: lightgrey; }
   .home__disclaimers > a {
     color: lightgrey;
     text-decoration: none; }
+
+@media (min-width: 860px) {
+  .form__field--halfWidth {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    width: 47%;
+    float: left; } }
+
+.form__input:focus + .form__label,
+.form__input:valid + .form__label {
+  top: -6rem;
+  text-align: left;
+  transform: scale(1); }
 
 .form {
   display: flex;
@@ -122,26 +139,37 @@ body {
   .form--signup {
     padding-top: 0px; }
   .form__field {
-    width: 100%; }
+    width: 100%;
+    position: relative; }
   .form__field--halfWidth {
-    display: inline-block;
-    margin: 0;
-    padding: 0;
-    width: 47%;
-    float: left; }
+    width: 100%;
+    display: block; }
   .form__input {
     border-radius: 5rem;
+    position: relative;
     width: 100%;
     padding: .8rem 1.2rem;
     border: 1px solid darkgrey;
-    transition: border 0.3s; }
+    transition: border 0.3s ease-in-out;
+    margin-bottom: 1.5rem;
+    z-index: 2;
+    background: rgba(255, 255, 255, 0.1);
+    float: left; }
     .form__input:focus {
       border: 4px solid #35863D;
       outline: none; }
   .form__label {
     color: #35863D;
+    top: -3.5rem;
     font-size: 1rem;
-    font-weight: 200; }
+    font-weight: 200;
+    display: inline-block;
+    position: relative;
+    transform: scale(1.25);
+    width: 100%;
+    text-align: center;
+    z-index: 0;
+    transition: top .3s ease-in-out; }
   .form__submit, .about__submit {
     background-color: #35863D;
     color: white;
@@ -150,10 +178,22 @@ body {
     font-weight: 200;
     width: 100%;
     border-radius: 5rem;
-    margin-top: 3rem;
     border: none; }
     .form__submit:focus, .about__submit:focus {
       outline: none; }
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus input:-webkit-autofill,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  border: 1px solid #35863D;
+  -webkit-text-fill-color: white;
+  -webkit-box-shadow: 0 0 0px 1000px black inset;
+  transition: background-color 5000s ease-in-out 0s; }
 
 .welcome {
   text-align: center; }
@@ -171,12 +211,32 @@ body {
 
 .welcome__label {
   color: #35863D;
-  font-weight: bold; }
+  font-weight: bold;
+  display: inline-block;
+  padding-right: 20px; }
 
 .welcome__details {
   text-align: center; }
   .welcome__details h3 {
     font-weight: 200; }
+
+dl {
+  overflow: hidden;
+  display: inline-block; }
+
+dt {
+  float: left;
+  clear: left;
+  width: 100px;
+  text-align: right;
+  font-weight: bold;
+  color: #35863D;
+  text-align: left; }
+
+dd {
+  text-align: left;
+  float: left;
+  padding: 0 0 0.5em 0; }
 
 .about__submit {
   display: block;
