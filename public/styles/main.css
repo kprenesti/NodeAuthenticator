@@ -108,7 +108,8 @@ body {
 
 .home__disclaimers {
   text-align: center;
-  padding-top: .5rem; }
+  padding-top: .5rem;
+  color: lightgrey; }
   .home__disclaimers > a {
     color: lightgrey;
     text-decoration: none; }
