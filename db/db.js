@@ -1,12 +1,17 @@
 const Sequelize = require('sequelize');
-var dbUsername = undefined,
-    dbPassword = undefined,
-    dbName = undefined;
-const sequelize = new Sequelize(dbName, dbUsername, dbPassword, {
-    dialect: 'sqlite',
-    host: 'localhost',
-    storage: __dirname + '/AuthenticationDB.sqlite'
-});
+const env = process.env.NODE_ENV || 'development';
+var sequelize;
+
+if (env === 'production') {
+	sequelize = new Sequelize(process.env.DATABASE_URL, {
+		dialect: 'postgres'
+	});
+} else {
+	sequelize = new Sequelize(undefined, undefined, undefined, {
+		'dialect': 'sqlite',
+		'storage': __dirname + '/db/AuthenticationDB.sqlite'
+	});
+}
 var db = {};
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
