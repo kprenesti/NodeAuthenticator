@@ -9,7 +9,7 @@ if (env === 'production') {
 } else {
 	sequelize = new Sequelize(undefined, undefined, undefined, {
 		'dialect': 'sqlite',
-		'storage': __dirname + '/db/AuthenticationDB.sqlite'
+		'storage': __dirname + '/AuthenticationDB.sqlite'
 	});
 }
 var db = {};
