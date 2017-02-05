@@ -41,7 +41,7 @@ angular.module('app', ['ui.router', 'ngStorage'])
       .state('welcomeUser', {
         templateUrl: './templates/welcome.html',
         controller: 'welcomeController as welcome',
-        authenticate: true,
+        authenticate: true
       })
       .state('about', {
         url: '/about',
@@ -60,6 +60,7 @@ angular.module('app', ['ui.router', 'ngStorage'])
 
 angular.module('app').factory('authService', function ($http, $localStorage, userInfo){
    var authService = this;
+   //creds passed from login.subit's call to this function.
    authService.checkForToken = function(){
      if($localStorage.currentUser){
        if($localStorage.currentUser.token){
@@ -260,6 +261,13 @@ angular.module('app').controller('signUpController', function($http, userInfo, $
       });
       console.log(fields, pw);
     }
+
+    // $state.transitionTo($state.current, {} ,{reload: true});
+
+    // $http.post('/users', signup.user).then(function(user){
+    //   userInfo.setUserData(user);
+    //   console.log(user);
+    // })
   }
 });
 
@@ -276,5 +284,7 @@ angular.module('app').controller('welcomeController', function(userInfo, $state,
       authService.Logout();
       $state.go('home.login');
     });
+    //add only if successfully logged out
+    // $state.go('home.login');
   }
 });

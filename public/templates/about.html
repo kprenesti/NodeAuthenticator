@@ -1,11 +1,43 @@
 <div class="home__welcome-left">
   <h1 class="about__techListTitle">Technologies Used</h1>
   <img class="about__logo" src="./img/nodeLogo.svg" class="about__logo" alt="Backend: Node" />
+  <img class="about__logo" src="./img/angular.png" alt="Frontend: Angular" />
+  <img class="about__logo" src="./img/MySQL.png" alt="Database: My SQL via Sequelize.js" />
+  <img class="about__logo" src="./img/jwt.svg" alt="Authentication: JSON Web Tokens" />
 </div>
 <div class="home__panel">
   <h1 class="active">About This Project</h1>
   <p class="about__description">
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    Welcome to my very first full-stack project.  This project was born from a desire to see how to connect a front-end framework to a homemade back-end.  The skills either learned or sharpened while creating this project include:
+    <ul class="about__skills">
+      <li>
+        Using Node.js to create a CRUD application.
+      </li>
+      <li>
+        Using SQL databases to store user information
+      </li>
+      <li>
+        Using JWT to authenticate a user
+      </li>
+      <li>
+        Using local storage to store user login state and JWT
+      </li>
+      <li>
+        Angular routing
+      </li>
+      <li>
+        Accessing and modifying http headers
+      </li>
+      <li>
+        CSS animation
+      </li>
+      <li>
+        CSS
+      </li>
+      <li>
+        And much more!
+      </li>
+    </ul>
   </p>
-  <button class="about__submit" ng-click="about.goHome()">Go To Login</button>
+  <button class="about__submit" ng-click="aboutCtrl.goHome()">Go To Login</button>
 </div>

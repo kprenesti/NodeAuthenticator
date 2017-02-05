@@ -39,7 +39,8 @@ body {
   color: inherit; }
 
 .error {
-  color: red; }
+  color: red;
+  margin-bottom: 1.5rem; }
 
 @media (min-width: 860px) {
   body {
@@ -85,7 +86,7 @@ body {
   font-size: 1rem;
   font-weight: 200;
   padding-top: 0;
-  margin-top: 0;
+  margin-top: .5rem;
   position: relative;
   top: -10px; }
 
@@ -111,6 +112,7 @@ body {
 .home__disclaimers {
   text-align: center;
   padding-top: .5rem;
+  padding-bottom: 2rem;
   color: lightgrey; }
   .home__disclaimers > a {
     color: lightgrey;
@@ -118,10 +120,10 @@ body {
 
 @media (min-width: 860px) {
   .form__field--halfWidth {
-    display: inline-block;
+    display: inline-block !important;
     margin: 0;
     padding: 0;
-    width: 47%;
+    width: 47% !important;
     float: left; } }
 
 .form__input:focus + .form__label,
@@ -169,7 +171,7 @@ body {
     width: 100%;
     text-align: center;
     z-index: 0;
-    transition: top .3s ease-in-out; }
+    transition: top .3s ease-in-out, text-align .3s ease-in-out; }
   .form__submit, .about__submit {
     background-color: #35863D;
     color: white;
@@ -178,7 +180,8 @@ body {
     font-weight: 200;
     width: 100%;
     border-radius: 5rem;
-    border: none; }
+    border: none;
+    cursor: pointer; }
     .form__submit:focus, .about__submit:focus {
       outline: none; }
 
@@ -242,3 +245,12 @@ dd {
   display: block;
   text-decoration: none;
   text-align: center; }
+
+.about__logo {
+  padding: 1rem; }
+
+.about__skills {
+  list-style-position: inside;
+  display: inline-block;
+  margin: auto;
+  padding: 2rem 0; }
