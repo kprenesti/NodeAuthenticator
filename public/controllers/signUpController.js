@@ -53,9 +53,9 @@ angular.module('app').controller('signUpController', function($http, userInfo, $
             $state.go('welcomeUser');
           } else {
             throw new Error('Invalid Information.');
+            $state.go('home.login');
           }
         })
-        // $state.go('home.login');
       }).catch(function(e){
         console.log(e);
         signup.error = "Something went wrong! " + e.statusText;

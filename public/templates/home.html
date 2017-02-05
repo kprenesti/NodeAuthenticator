@@ -1,11 +1,18 @@
-<div class="home wrapper">
-  <h1 class="home__welcomeMsg">Welcome to the Node Authenticator!</h1>
-  <p class="home__description">
-    {{home.message}}
-  </p>
+<!-- <div class="wrapper"> -->
+  <div class="home__welcome-left">
+    <img class="home__logo" src="/img/nodeLogo.svg" alt="Created using Node and the MEAN stack: MySql variety."/>
+    <h1 class="home__welcomeMsg">Welcome!</h1>
+    <h2 class="home__subtitle">Well don't just stand there...Enter!</h2>
+    <ul class="home__bullets">
+      <li><i class="fa fa-check"></i>  You can sign up!</li>
+      <li><i class="fa fa-check"></i>  You can log in!</li>
+      <li><i class="fa fa-check"></i>  You can log out!</li>
+      <li><i class="fa fa-check"></i>  You can be authenticated!</li>
+    </ul>
+  </div>
   <div class="home__panel">
-    <a class="home__tab" ui-sref="home.signUp">Sign Up</a>
-    <a class="home__tab" ui-sref="home.login">Login</a>
+    <!-- <a class="home__tab" ui-sref="home.signUp">Sign Up</a>
+    <a class="home__tab" ui-sref="home.login">Login</a> -->
     <ui-view></ui-view>
   </div>
 </div>

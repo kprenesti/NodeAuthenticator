@@ -1,0 +1,48 @@
+.welcome {
+  @extend .home__panel;
+  text-align: center;
+}
+
+.welcome__woohoo {
+  display: block;
+  position: relative;
+  top: -.9rem;
+}
+.welcome__profile {
+  text-align: center;
+  color: $darkGreen;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+
+}
+.welcome__label {
+  color: $darkGreen;
+  font-weight: bold;
+  display: inline-block;
+  padding-right: 20px;
+}
+.welcome__details {
+  text-align: center;
+  h3 {
+  font-weight: 200;
+}
+}
+dl {
+  overflow: hidden;
+  display: inline-block;
+}
+dt {
+    float: left;
+    clear: left;
+    width: 100px;
+    text-align: right;
+    font-weight: bold;
+    color: $darkGreen;
+    text-align: left;
+  }
+  dd {
+    text-align: left;
+    float: left;
+    // margin: 0 0 0 2rem;
+    padding: 0 0 0.5em 0;
+  }

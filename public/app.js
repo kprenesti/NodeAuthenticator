@@ -1,4 +1,4 @@
-angular.module('app', ['ui.router', 'ngMaterial', 'ngStorage'])
+angular.module('app', ['ui.router', 'ngStorage'])
   .run(function($rootScope, $state, $injector){
     $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams){
       console.log({"toState": toState, "toParams": toParams, "fromState": fromState, "fromParams": fromParams});
@@ -14,7 +14,10 @@ angular.module('app', ['ui.router', 'ngMaterial', 'ngStorage'])
   })//end .run
   .config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $localStorageProvider){
     $httpProvider.interceptors.push('headersService'); //end httpProvider
-    $locationProvider.html5Mode(true);
+    // $locationProvider.html5Mode({
+    //   enabled: true,
+    //   requireBase: false
+    // });
     $urlRouterProvider.otherwise('/');
     $stateProvider
       .state('home', {
@@ -39,17 +42,23 @@ angular.module('app', ['ui.router', 'ngMaterial', 'ngStorage'])
         templateUrl: './templates/welcome.html',
         controller: 'welcomeController as welcome',
         authenticate: true,
-        resolve: {
-          auth: function($q, authService) {
-            var userInfo = authService.checkForToken();
-
-            if (userInfo) {
-              return $q.resolve();
-            } else {
-              return $q.reject({ authenticated: false });
-            }
-          }
-        }
+        // resolve: {
+        //   auth: function($q, authService) {
+        //     var userInfo = authService.checkForToken();
+        //
+        //     if (userInfo) {
+        //       return $q.resolve();
+        //     } else {
+        //       return $q.reject({ authenticated: false });
+        //     }
+        //   }
+        // }
+      })
+      .state('about', {
+        url: '/about',
+        templateUrl: './templates/about.html',
+        controller: 'aboutController as aboutCtrl',
+        authenticate: false
       });
       // .state('changePW', {
       //   url: '/changePW',
@@ -57,4 +66,5 @@ angular.module('app', ['ui.router', 'ngMaterial', 'ngStorage'])
       //   controller: 'changePWController as changePW',
       //   authenticate: true
       // });
+      $locationProvider.html5Mode(true).hashPrefix('!');
   });

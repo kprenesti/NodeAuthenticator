@@ -1,12 +1,19 @@
-<div class="login">
-  <h2 ng-show="login.firstName">Thanks for signing up, {{login.firstName}}! Please login to see your profile.</h2>
+<div class="activeState">
+  <h1><span class="active">Login</span><span class="inactive">  /  <a ui-sref="home.signUp" class="activeState__link">Sign Up</a></span></h1>
+</div>
+
+<div class="loginForm">
   <h2 class="error" ng-show="login.error">Ooops. {{login.error}}</h2>
-  <form class="form">
-    <label class="form__label" for="email">Username or Email: </label>
-    <input class="form__input" type="text" name="email" placeholder="Username or Email" ng-model="login.creds"/>
-    <label class="form__label" for="password">Password</label>
-    <input class="form__input" type="password" name="password" ng-model="login.password">
-    <button class="button button--submit" type="submit" ng-click="login.submit()">Login</button>
+  <form class="form form--login">
+    <div class="form__field form__field--creds">
+      <input class="form__input" type="text" name="email" ng-model="login.creds" required/>
+      <label class="form__label" for="email">Username or Email: </label>
+    </div>
+    <div class="form__field form__field--password">
+      <input class="form__input" type="password" name="password" ng-model="login.password" required>
+      <label class="form__label" for="password">Password</label>
+    </div>
+    <button class="form__submit" type="submit" ng-click="login.submit()">Login</button>
   </form>
   <!-- Password Reset Coming in v2.0 -->
   <!-- <a ui-sref="forgotPW">Forgot Password?</a> -->

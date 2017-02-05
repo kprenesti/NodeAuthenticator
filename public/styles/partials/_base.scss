@@ -2,12 +2,50 @@
 * {
   margin: 0;
   padding: 0;
-  font-family: 'Hind', sans-serif; }
+  font-family: 'Hind', sans-serif;
+  box-sizing: border-box;
+}
 
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  // padding-top: 10vh;
+  // padding-bottom: 10vh;
+  background: rgba(62,134,61,0.77);
+  background: -webkit-linear-gradient(rgba(62,134,61,0.77) 0%, rgba(62,134,61,0.77) 0%, rgba(31,59,8,1) 100%);
+  background: -o-linear-gradient(rgba(62,134,61,0.77) 0%, rgba(62,134,61,0.77) 0%, rgba(31,59,8,1) 100%);
+  background: linear-gradient(rgba(62,134,61,0.77) 0%, rgba(62,134,61,0.77) 0%, rgba(31,59,8,1) 100%);
+}
 
 .wrapper {
-  width: 60vw;
+  width: 90vw;
+  // height: auto;
+  // min-height: 70vh;
+  overflow: hidden;
   margin: auto;
-  padding: 40px;
-  min-height: 100vh;
-  text-align: center; }
+  position: relative;
+  box-shadow: 1px 1px 28px -3px rgba(0,0,0,0.7);
+}
+@media (min-width: 860px){
+  .wrapper {
+    width: 70vw;
+    min-height: 70vh;
+  }
+}
+.active {
+  color: $darkGreen;
+  text-shadow: 1px 1px 5px lightgrey;
+}
+.inactive {
+  color: grey;
+  font-weight: 200;
+}
+.inactive > a {
+  text-decoration: none;
+  color: inherit;
+}
+.error {
+  color: red;
+}

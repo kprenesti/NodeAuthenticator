@@ -1,4 +1,4 @@
-angular.module('app', ['ui.router', 'ngMaterial', 'ngStorage'])
+angular.module('app', ['ui.router', 'ngStorage'])
   .run(function($rootScope, $state, $injector){
     $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams){
       console.log({"toState": toState, "toParams": toParams, "fromState": fromState, "fromParams": fromParams});
@@ -14,7 +14,10 @@ angular.module('app', ['ui.router', 'ngMaterial', 'ngStorage'])
   })//end .run
   .config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $localStorageProvider){
     $httpProvider.interceptors.push('headersService'); //end httpProvider
-    $locationProvider.html5Mode(true);
+    // $locationProvider.html5Mode({
+    //   enabled: true,
+    //   requireBase: false
+    // });
     $urlRouterProvider.otherwise('/');
     $stateProvider
       .state('home', {
@@ -39,17 +42,12 @@ angular.module('app', ['ui.router', 'ngMaterial', 'ngStorage'])
         templateUrl: './templates/welcome.html',
         controller: 'welcomeController as welcome',
         authenticate: true,
-        resolve: {
-          auth: function($q, authService) {
-            var userInfo = authService.checkForToken();
-
-            if (userInfo) {
-              return $q.resolve();
-            } else {
-              return $q.reject({ authenticated: false });
-            }
-          }
-        }
+      })
+      .state('about', {
+        url: '/about',
+        templateUrl: './templates/about.html',
+        controller: 'aboutController as aboutCtrl',
+        authenticate: false
       });
       // .state('changePW', {
       //   url: '/changePW',
@@ -57,11 +55,11 @@ angular.module('app', ['ui.router', 'ngMaterial', 'ngStorage'])
       //   controller: 'changePWController as changePW',
       //   authenticate: true
       // });
+      $locationProvider.html5Mode(true).hashPrefix('!');
   });
 
 angular.module('app').factory('authService', function ($http, $localStorage, userInfo){
    var authService = this;
-   //creds passed from login.subit's call to this function.
    authService.checkForToken = function(){
      if($localStorage.currentUser){
        if($localStorage.currentUser.token){
@@ -143,6 +141,14 @@ function userInfo(){
   return user;
 
 }
+
+angular.module('app').controller('aboutController', function($state){
+  console.log('The about controller is connected.');
+  var about = this;
+  about.goHome = function(){
+    $state.go('home.login');
+  }
+});
 
 angular.module('app').controller('homeController', function(){
   var home = this;
@@ -245,22 +251,15 @@ angular.module('app').controller('signUpController', function($http, userInfo, $
             $state.go('welcomeUser');
           } else {
             throw new Error('Invalid Information.');
+            $state.go('home.login');
           }
         })
-        // $state.go('home.login');
       }).catch(function(e){
         console.log(e);
         signup.error = "Something went wrong! " + e.statusText;
       });
       console.log(fields, pw);
     }
-
-    // $state.transitionTo($state.current, {} ,{reload: true});
-
-    // $http.post('/users', signup.user).then(function(user){
-    //   userInfo.setUserData(user);
-    //   console.log(user);
-    // })
   }
 });
 
@@ -275,9 +274,7 @@ angular.module('app').controller('welcomeController', function(userInfo, $state,
       console.log('status: ', status);
       delete status.config.headers.Auth;
       authService.Logout();
-      $state.go('home');
+      $state.go('home.login');
     });
-    //add only if successfully logged out
-    // $state.go('home.login');
   }
 });
