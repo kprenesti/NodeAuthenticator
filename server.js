@@ -1,6 +1,6 @@
 //==========CONFIG + EXPRESS===========//
 const env = require('dotenv').config();
-var PORT = process.env.PORT || 3100;
+var PORT = process.env.PORT || 3000;
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
