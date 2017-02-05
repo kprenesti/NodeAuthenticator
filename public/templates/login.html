@@ -6,12 +6,12 @@
   <h2 class="error" ng-show="login.error">Ooops. {{login.error}}</h2>
   <form class="form form--login">
     <div class="form__field form__field--creds">
+      <input class="form__input" type="text" name="email" ng-model="login.creds" required/>
       <label class="form__label" for="email">Username or Email: </label>
-      <input class="form__input" type="text" name="email" ng-model="login.creds"/>
     </div>
     <div class="form__field form__field--password">
+      <input class="form__input" type="password" name="password" ng-model="login.password" required>
       <label class="form__label" for="password">Password</label>
-      <input class="form__input" type="password" name="password" ng-model="login.password">
     </div>
     <button class="form__submit" type="submit" ng-click="login.submit()">Login</button>
   </form>

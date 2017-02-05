@@ -6,9 +6,14 @@
   <p class="welcome__woohoo">You made it! You're authenticated and we know who you are!</p>
   <div class="welcome__details">
     <h2 class="welcome__profile">Your Profile</h2>
-    <h3 class="welcome__detail"><span class="welcome__label">Username:</span> {{welcome.username}}</h3>
-    <h3><span class="welcome__label">Name:</span> {{welcome.firstName + " " + welcome.lastName}}</h3>
-    <h3><span class="welcome__label">E-mail:</span> {{welcome.email}}</h3>
+    <dl>
+      <dt class="welcome__label">Username:</dt>
+      <dd>{{welcome.username}}</dd>
+      <dt class="welcome__label">Name:</dt>
+      <dd>{{welcome.firstName + " " + welcome.lastName}}</dd>
+      <dt class="welcome__label">E-mail:</dt>
+      <dd>{{welcome.email}}</dd>
+    </dl>
   </div>
   <button class="form__submit" ng-click="welcome.logout()" type="button">Logout</button>
 </div>
