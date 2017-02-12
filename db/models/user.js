@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes)=>{
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        isAlpha: true,
+        is: /([A-Za-z\- ])/gi,
         min: 2
       }
     },
@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes)=>{
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        isAlpha: true,
+        is: /([A-Za-z\- ])/gi,
         min: 2
       }
     },
