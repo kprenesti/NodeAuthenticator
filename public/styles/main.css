@@ -39,8 +39,12 @@ body {
   color: inherit; }
 
 .error {
-  color: red;
-  margin-bottom: 1.5rem; }
+  margin-bottom: 2.5rem; }
+  .error p {
+    padding: 1.5rem;
+    background-color: rgba(237, 67, 55, 0.3);
+    color: #ab0000;
+    font-weight: bold; }
 
 @media (min-width: 860px) {
   body {

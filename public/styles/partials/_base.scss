@@ -47,6 +47,11 @@ body {
   color: inherit;
 }
 .error {
-  color: red;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2.5rem;
+  p {
+    padding: 1.5rem;
+    background-color: rgba(237, 67, 55, 0.3);
+    color: rgb(171, 0, 0);
+    font-weight: bold;
+  }
 }

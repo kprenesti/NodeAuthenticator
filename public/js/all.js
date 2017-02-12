@@ -211,7 +211,7 @@ angular.module('app').controller('signUpController', function($http, userInfo, $
        signup.error = 'Username must be at least 5 characters and be alphanumeric.';
        return false;
      } 
-    if(/[^\w \-]+/g.test(firstName) === true || /[^\w \-]+/g.test(lastName) === true){
+    if(/[^[A-z \-]/g.test(firstName) === true || /[^[A-z ]/g.test(lastName) === true){
        signup.error = 'First and Last name must be at least 2 characters and only contain letters and spaces.';
        return false;
      } 
