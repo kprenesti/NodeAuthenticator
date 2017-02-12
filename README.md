@@ -6,6 +6,8 @@ Part of this app was done by following "The Complete Node Developer" course on U
 ##Technology Stack:
 - Node
 - Express
+- JSON Web Tokens (JWT)
+- MySQL (via Sequelize)
 - JavaScript
 - Angular 1.5
 - SASS
